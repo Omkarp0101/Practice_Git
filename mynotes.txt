@@ -1,0 +1,13 @@
+Hello there.. this is my first file.
+
+My name is omkar patil, basically I am from Kolhapur but currently I am living in pune. I have completed by graduation in bachelor of science in computer science and after that I have completed by post graduation in Master in computer application in pune. I am fullstack java developer with over 3 years of experience. Specializing in backend development using java, spring boot and hibernate. During my tenure at Amedea infotech I worked on multiple projects key focused on Direct selling agests(DSA). 
+Talking about project,the direct selling agent management module is designed to efficiently manage direct selling agent. These are the individuals or entities act as a intermediaries between borrowers and financial institutions like banks or NBFCs. The main purpose of this project was streamline the agent operations, improves borrower-agent-bank co-ordination. Enhances the overall loan application processing.
+
+Register the new DSA’s by collecting their details and performing KYC verification, including document uploads and validations.
+Updates or deactivate agent profiles and reactivate them when needed.
+Assign territories or regions to agents for better network coverage.
+Retrieves the agent information like performance matrics or sales history for analysis.
+
+Role and responsibility-
+In this project I was involved end to end from designing database schema to implementing backend logic and testing restful apis. I created secure endpoints for agent registration and KYC verification. I also implemented a feature to generate reports on agent performance which was value add for decision making. Additionally I wrote unit tests using JUnit.
+

@@ -1,0 +1,3030 @@
+Q.What is the difference between Comparable and Comparator?
+-Comparable provides one method named compareTo() but Comparator provides one method named compare().
+-Comparable provides only one sort of sequence but Comparator provides multiple sorts of sequences.
+-Comparable provides natural sorting order and comparator can provide customize order.
+-Comparable present in java.util package and comparator present in java.lang package.
+Q.Advantage of inheritance?
+-Code re_usability
+-Class Extendibility
+-Save development time
+------------------------------------------------------------------------------------------------------------------------------------------------
+Q. What is Hibernate?
+-> Hibernate is an **object-relational mapping (ORM) framework** for Java that simplifies the interaction between an application and a relational database. It provides a way to map Java objects to database tables and vice versa, allowing developers to work with database data as Java objects instead of writing SQL queries.
+
+### Key Features of Hibernate:
+1. **ORM Support**: Maps Java classes to database tables and Java objects to table rows.
+2. **HQL (Hibernate Query Language)**: A powerful query language similar to SQL but focused on object-oriented operations.
+3. **Automatic Table Creation**: Can generate database schemas from Java entity classes.
+4. **Lazy Loading**: Loads data only when needed, improving performance.
+5. **Caching**: Supports first-level (session-level) and second-level (application-level) caching to optimize database access.
+6. **Transaction Management**: Simplifies managing database transactions.
+7. **Portability**: Abstracts database-specific operations, making applications database-agnostic.
+8. **Custom SQL**: Allows writing custom SQL queries when necessary.
+
+### How Hibernate Works:
+1. **Configuration**: Hibernate requires configuration files (like `hibernate.cfg.xml` or `persistence.xml`) that define database connection settings and mappings.
+2. **SessionFactory**: Acts as a factory for `Session` objects, responsible for initializing Hibernate and managing configuration.
+3. **Session**: A lightweight object that represents a unit of work and provides methods for CRUD (Create, Read, Update, Delete) operations.
+4. **Transaction**: Used to manage database transactions within a `Session`.
+5. **Query Execution**: Uses HQL or native SQL for executing queries.
+
+### Example:
+Here’s a simple example of using Hibernate to persist an entity:
+
+#### Entity Class:
+```java
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
+public class Employee {
+    @Id
+    private int id;
+    private String name;
+    private String department;
+
+    // Getters and Setters
+}
+```
+
+#### Configuration File (`hibernate.cfg.xml`):
+```xml
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/yourdb</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">password</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <mapping class="Employee"/>
+    </session-factory>
+</hibernate-configuration>
+```
+
+#### Hibernate Usage:
+```java
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+public class Main {
+    public static void main(String[] args) {
+        SessionFactory factory = new Configuration().configure().buildSessionFactory();
+        Session session = factory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        // Create an employee and save to the database
+        Employee emp = new Employee();
+        emp.setId(1);
+        emp.setName("John Doe");
+        emp.setDepartment("IT");
+
+        session.save(emp);
+        transaction.commit();
+
+        session.close();
+        factory.close();
+    }
+}
+```
+
+Hibernate is widely used in Java applications for its simplicity, portability, and the ability to reduce boilerplate code for database interactions.
+
+
+Q. What are the major advantages of the Hibernate Framework ?
+-> The Hibernate framework offers several advantages that make it a popular choice for developers when working with Java and databases. Here are the major benefits:
+
+---
+
+### 1. **Simplified Database Interactions**
+   - Hibernate allows developers to perform database operations using **Java objects**, reducing the need for extensive SQL queries.
+   - It provides methods like `save()`, `update()`, `delete()`, and `get()` to interact with database records directly.
+
+---
+
+### 2. **Object-Relational Mapping (ORM)**
+   - Maps Java classes to database tables and object properties to table columns.
+   - Eliminates the mismatch between object-oriented programming and relational databases, making data manipulation more intuitive.
+
+---
+
+### 3. **Database Independence**
+   - Hibernate abstracts database-specific operations using **dialects**.
+   - Switching databases (e.g., from MySQL to PostgreSQL) usually requires only a change in the dialect configuration.
+
+---
+
+### 4. **HQL (Hibernate Query Language)**
+   - Hibernate provides a powerful, object-oriented query language that is database-independent.
+   - Queries are written using **entity class names and properties**, not table and column names, making them more intuitive.
+
+---
+
+### 5. **Automatic Table Generation**
+   - Hibernate can automatically create or update database schemas based on Java entity classes.
+   - Reduces the need for writing complex SQL scripts for schema creation.
+
+---
+
+### 6. **Caching for Performance Optimization**
+   - Hibernate supports:
+     - **First-level caching** (default, session-scoped): Caches objects within the same session.
+     - **Second-level caching** (optional, session factory-scoped): Caches objects across sessions, using third-party providers like Ehcache or Infinispan.
+   - These caching mechanisms reduce database access and improve application performance.
+
+---
+
+### 7. **Lazy Loading and Eager Loading**
+   - Supports **lazy loading**, where associated data is fetched only when needed, improving performance.
+   - Developers can also specify **eager loading** when required.
+
+---
+
+### 8. **Transaction Management**
+   - Hibernate integrates with Java’s transaction management (JTA and JDBC) and provides an easy way to manage transactions.
+   - Ensures data integrity and consistency with minimal effort.
+
+---
+
+### 9. **Custom SQL Support**
+   - Although Hibernate reduces the need for SQL, it allows custom SQL or native queries when specific optimizations are required.
+
+---
+
+### 10. **Built-in Connection Pooling**
+   - Comes with its own connection pooling mechanism and can integrate with third-party connection pools like C3P0, HikariCP, and DBCP.
+
+---
+
+### 11. **Extensibility and Scalability**
+   - Hibernate is flexible and can be extended using custom interceptors, listeners, and custom dialects.
+   - Suitable for small projects and large, enterprise-level applications.
+
+---
+
+### 12. **Integration with Java Persistence API (JPA)**
+   - Hibernate implements the JPA standard, making it easier to use in Java EE or Spring applications.
+   - Developers can switch between Hibernate and other JPA providers with minimal code changes.
+
+---
+
+### 13. **Cross-Platform Compatibility**
+   - Supports multiple operating systems and database systems, making it ideal for applications requiring cross-platform deployment.
+
+---
+
+### 14. **Support for Inheritance and Associations**
+   - Hibernate provides robust support for mapping:
+     - **Inheritance hierarchies** in Java classes to relational tables.
+     - Relationships like **One-to-One**, **One-to-Many**, and **Many-to-Many**.
+
+---
+
+### 15. **Error Reduction and Maintenance**
+   - Hibernate minimizes boilerplate code and reduces the chance of SQL injection and database errors.
+   - The code is easier to maintain and extend due to the abstraction it provides.
+
+---
+
+By automating repetitive tasks and bridging the gap between Java objects and database tables, Hibernate significantly improves developer productivity and application maintainability.
+
+
+Q. What are the advantages of using hibernate over JDBC?
+-> Hibernate offers several advantages over JDBC (Java Database Connectivity), making it a more robust and developer-friendly solution for database interactions in Java applications. Here's a comparison highlighting the benefits of Hibernate over JDBC:
+
+---
+
+### 1. **Object-Relational Mapping (ORM)**
+   - **Hibernate**: Provides ORM, which maps Java objects directly to database tables, eliminating the need to manually handle the conversion between rows/columns and objects/fields.
+   - **JDBC**: Requires manual handling of the mapping between database tables and Java objects, leading to boilerplate code and potential errors.
+
+---
+
+### 2. **Automatic SQL Generation**
+   - **Hibernate**: Automatically generates SQL queries based on the object model, reducing the need to write complex SQL.
+   - **JDBC**: Requires developers to write all SQL queries manually, increasing development effort and room for error.
+
+---
+
+### 3. **Database Independence**
+   - **Hibernate**: Abstracts database-specific operations using dialects, making it easier to switch databases (e.g., from MySQL to Oracle) with minimal changes.
+   - **JDBC**: SQL queries are database-dependent, requiring significant changes if the database is switched.
+
+---
+
+### 4. **HQL (Hibernate Query Language)**
+   - **Hibernate**: Provides HQL, an object-oriented query language, which uses entity names and attributes instead of table names and columns.
+   - **JDBC**: Does not have an equivalent; all queries must be written in SQL.
+
+---
+
+### 5. **Caching Mechanism**
+   - **Hibernate**: Supports first-level (session) and second-level (application) caching to improve performance by reducing database calls.
+   - **JDBC**: Does not provide built-in caching; developers must implement caching manually if needed.
+
+---
+
+### 6. **Lazy Loading and Eager Loading**
+   - **Hibernate**: Supports lazy loading, fetching data only when accessed, and eager loading, preloading associated data.
+   - **JDBC**: Fetching strategies must be implemented manually, increasing complexity.
+
+---
+
+### 7. **Transaction Management**
+   - **Hibernate**: Provides built-in transaction management and integrates seamlessly with JTA and Spring transactions.
+   - **JDBC**: Requires explicit transaction handling using `commit()` and `rollback()` methods.
+
+---
+
+### 8. **Schema Management**
+   - **Hibernate**: Can generate and update database schemas based on entity classes, automating schema creation and updates.
+   - **JDBC**: Requires manual SQL scripts for schema creation and updates.
+
+---
+
+### 9. **Ease of Maintenance**
+   - **Hibernate**: Reduces boilerplate code and centralizes configuration, making the application easier to maintain.
+   - **JDBC**: Code tends to be more verbose and harder to maintain due to repetitive SQL statements.
+
+---
+
+### 10. **Error Handling**
+   - **Hibernate**: Provides detailed exceptions and hides database-specific exceptions, making debugging easier.
+   - **JDBC**: Exceptions are directly tied to the database and are less descriptive, making error handling more complex.
+
+---
+
+### 11. **Support for Associations and Relationships**
+   - **Hibernate**: Simplifies handling associations like One-to-One, One-to-Many, and Many-to-Many relationships with annotations and mappings.
+   - **JDBC**: Requires developers to handle relationships manually through complex SQL queries and joins.
+
+---
+
+### 12. **Integration with Frameworks**
+   - **Hibernate**: Integrates well with frameworks like Spring and implements the JPA standard for greater compatibility.
+   - **JDBC**: Can also integrate with Spring but lacks JPA-level abstractions.
+
+---
+
+### 13. **Portability**
+   - **Hibernate**: Ensures portability across databases with minimal changes to the code.
+   - **JDBC**: Portability is limited as SQL queries are often database-specific.
+
+---
+
+### Summary Table:
+
+| Feature                  | Hibernate                            | JDBC                                |
+|--------------------------|--------------------------------------|-------------------------------------|
+| **ORM**                  | Yes                                 | No                                  |
+| **SQL Generation**       | Automatic                           | Manual                              |
+| **Database Independence**| High (via dialects)                 | Low (database-specific SQL)         |
+| **Query Language**       | HQL (object-oriented)               | SQL (table-based)                   |
+| **Caching**              | First-level and second-level        | Manual implementation needed        |
+| **Lazy Loading**         | Built-in                            | Must be implemented manually        |
+| **Transaction Management**| Automatic and JTA-integrated       | Manual                              |
+| **Schema Management**    | Automatic                           | Manual                              |
+| **Error Handling**       | Descriptive exceptions              | Less descriptive (SQLExceptions)    |
+| **Integration**          | Seamless with frameworks            | Requires additional effort          |
+
+---
+
+By automating repetitive tasks, improving maintainability, and offering advanced features like caching and lazy loading, Hibernate significantly simplifies the development process compared to JDBC.
+
+Q. Why use hibernate framework?
+-> Using the Hibernate framework offers numerous advantages, making it a popular choice for Java developers when working with relational databases. Here are the main reasons why you should use Hibernate:
+
+---
+
+### 1. **Object-Relational Mapping (ORM)**
+   - Hibernate simplifies database interactions by mapping Java objects directly to database tables.
+   - Developers can work with high-level objects instead of handling raw SQL queries and result sets.
+
+---
+
+### 2. **Database Independence**
+   - Hibernate abstracts database-specific operations using **dialects**. 
+   - You can easily switch between databases (e.g., MySQL, Oracle, PostgreSQL) with minimal configuration changes.
+
+---
+
+### 3. **Simplifies CRUD Operations**
+   - Provides built-in methods like `save()`, `update()`, `delete()`, and `get()` for common database operations.
+   - Reduces boilerplate code compared to using JDBC.
+
+---
+
+### 4. **Hibernate Query Language (HQL)**
+   - Offers an object-oriented query language for querying entities.
+   - HQL uses class and property names instead of table and column names, making queries more intuitive and less error-prone.
+
+---
+
+### 5. **Caching for Performance Optimization**
+   - Hibernate includes caching mechanisms to reduce database access:
+     - **First-level cache** (session-level): Automatically enabled.
+     - **Second-level cache** (application-level): Integrates with caching providers like Ehcache or Infinispan.
+   - Reduces redundant database queries and improves application performance.
+
+---
+
+### 6. **Lazy Loading and Eager Loading**
+   - Hibernate supports **lazy loading**, where associated data is fetched only when required, improving efficiency.
+   - **Eager loading** can also be configured for scenarios where preloading data is necessary.
+
+---
+
+### 7. **Automatic Schema Generation**
+   - Hibernate can automatically generate database schemas based on Java entity classes, saving time on manual schema creation.
+   - Configurations like `hibernate.hbm2ddl.auto` (`create`, `update`, `validate`, `none`) control this behavior.
+
+---
+
+### 8. **Transaction Management**
+   - Hibernate integrates seamlessly with Java Transaction API (JTA) and provides built-in support for managing transactions.
+   - Ensures data consistency and simplifies rollback operations.
+
+---
+
+### 9. **Built-in Relationship Management**
+   - Supports associations like **One-to-One**, **One-to-Many**, **Many-to-Many**, and **Many-to-One** with easy-to-configure mappings.
+   - Automatically handles joins and foreign key constraints, reducing developer effort.
+
+---
+
+### 10. **Portability**
+   - Code written using Hibernate is highly portable across different environments and databases, making it suitable for scalable applications.
+
+---
+
+### 11. **Integration with Frameworks**
+   - Hibernate integrates well with popular frameworks like **Spring**, **Struts**, and **Java EE**.
+   - Implements the **Java Persistence API (JPA)** standard, ensuring compatibility with other JPA providers.
+
+---
+
+### 12. **Support for Inheritance**
+   - Hibernate supports mapping inheritance hierarchies to relational databases using strategies like:
+     - **Table per class**
+     - **Single table for hierarchy**
+     - **Table per subclass**
+
+---
+
+### 13. **Error Reduction and Maintenance**
+   - Hibernate reduces boilerplate code and SQL-related errors.
+   - Code is easier to maintain and debug due to descriptive exceptions and an intuitive API.
+
+---
+
+### 14. **Cross-Platform Development**
+   - Hibernate supports multiple databases and operating systems, making it a versatile choice for enterprise applications.
+
+---
+
+### 15. **Advanced Features**
+   - **Custom SQL Support**: When needed, developers can write custom SQL for specific use cases.
+   - **Event Listeners and Interceptors**: Hibernate allows hooking into lifecycle events for custom logic.
+
+---
+
+### Use Case Scenarios for Hibernate:
+- **Enterprise Applications**: Where scalability, maintainability, and database independence are crucial.
+- **Complex Data Models**: Applications with relationships like inheritance, associations, and large datasets.
+- **Rapid Development**: Projects requiring fast prototyping and minimal boilerplate code.
+
+---
+
+### Summary
+Hibernate streamlines database interactions, improves maintainability, and offers powerful features like caching, lazy loading, and schema management. These benefits make it a preferred choice for developing robust, efficient, and scalable Java applications.
+
+
+Q. What are the different functionalities supported by hibernate?
+-> Hibernate is a powerful ORM (Object-Relational Mapping) framework that supports a wide range of functionalities to simplify database operations in Java applications. Here are the key functionalities supported by Hibernate:
+
+---
+
+### 1. **Object-Relational Mapping (ORM)**
+   - Maps Java classes to database tables and object properties to table columns.
+   - Simplifies the conversion between Java objects and relational database entities.
+
+---
+
+### 2. **CRUD Operations**
+   - Hibernate provides methods to perform **Create**, **Read**, **Update**, and **Delete** operations:
+     - `save()`: Inserts a new record into the database.
+     - `update()`: Updates an existing record.
+     - `delete()`: Deletes a record.
+     - `get()` or `load()`: Retrieves a record by its primary key.
+
+---
+
+### 3. **Hibernate Query Language (HQL)**
+   - An object-oriented query language similar to SQL but uses class names and properties instead of table names and columns.
+   - Supports:
+     - Select, Insert, Update, and Delete operations.
+     - Joins, aggregations, and subqueries.
+
+---
+
+### 4. **Database Independence**
+   - Provides **dialects** for various databases (e.g., MySQL, PostgreSQL, Oracle, SQL Server).
+   - Ensures code portability across different database systems without changes to queries or logic.
+
+---
+
+### 5. **Caching Mechanisms**
+   - **First-level Cache**: Enabled by default, caches objects within a session.
+   - **Second-level Cache**: Allows caching across sessions and integrates with caching providers like Ehcache, Infinispan, and Redis.
+   - **Query Cache**: Stores the results of HQL queries for faster retrieval.
+
+---
+
+### 6. **Transaction Management**
+   - Supports transactions using JTA, JDBC, or programmatic transaction management.
+   - Ensures consistency and integrity in database operations with commit and rollback functionality.
+
+---
+
+### 7. **Lazy Loading and Eager Loading**
+   - **Lazy Loading**: Fetches data only when it is accessed, improving performance.
+   - **Eager Loading**: Fetches all required data immediately during query execution.
+
+---
+
+### 8. **Automatic Schema Generation**
+   - Hibernate can automatically create, update, validate, or drop database schemas based on entity classes using the `hibernate.hbm2ddl.auto` property.
+
+---
+
+### 9. **Relationship Mapping**
+   - Supports mapping relationships between entities:
+     - **One-to-One**
+     - **One-to-Many**
+     - **Many-to-One**
+     - **Many-to-Many**
+   - Handles associations with cascading options (e.g., `cascade`, `orphanRemoval`).
+
+---
+
+### 10. **Inheritance Mapping**
+   - Maps inheritance hierarchies in Java classes to database tables using strategies like:
+     - **Single Table per Hierarchy**
+     - **Table per Subclass**
+     - **Table per Concrete Class**
+
+---
+
+### 11. **Native SQL Queries**
+   - Hibernate allows executing raw SQL queries for scenarios where HQL or Criteria API is insufficient.
+   - Results can be mapped to entities or processed as raw data.
+
+---
+
+### 12. **Criteria API**
+   - Provides a programmatic and type-safe way to build queries dynamically.
+   - Useful for constructing complex queries at runtime.
+
+---
+
+### 13. **Event Handling and Interceptors**
+   - Hibernate supports interceptors and event listeners to handle lifecycle events such as:
+     - Pre-insert
+     - Post-insert
+     - Pre-update
+     - Post-update
+     - Pre-delete
+     - Post-delete
+
+---
+
+### 14. **Batch Processing**
+   - Optimizes performance by grouping multiple SQL operations into a single batch, reducing database roundtrips.
+
+---
+
+### 15. **Integration with Java Persistence API (JPA)**
+   - Hibernate implements the JPA standard, making it compatible with other frameworks and ensuring portability.
+
+---
+
+### 16. **Multi-tenancy Support**
+   - Hibernate supports multi-tenancy, allowing a single application to manage multiple databases or schemas for different clients.
+
+---
+
+### 17. **Query Validation**
+   - Hibernate validates HQL queries at runtime, ensuring correctness and reducing runtime errors.
+
+---
+
+### 18. **Audit Logging**
+   - Hibernate Envers, an extension of Hibernate, tracks and stores changes to entities, enabling audit logging and versioning.
+
+---
+
+### 19. **Cross-Platform Support**
+   - Works on multiple operating systems and integrates with various Java-based frameworks like Spring, Struts, and Java EE.
+
+---
+
+### 20. **Custom Types and User Types**
+   - Developers can define custom types to handle non-standard data types in the database.
+
+---
+
+### Summary
+Hibernate offers functionalities ranging from basic CRUD operations to advanced features like caching, relationship mapping, inheritance mapping, and audit logging. Its rich set of features makes it a comprehensive solution for handling complex database interactions in Java applications.
+
+Q.What are the technologies that are supported by hibernate?
+-> Hibernate is a versatile and widely used ORM (Object-Relational Mapping) framework that integrates seamlessly with various technologies and supports a wide range of tools and platforms. Below is a list of technologies and tools supported by Hibernate:
+
+---
+
+### 1. **Programming Language**
+   - **Java**: Hibernate is primarily written in and for the Java programming language.
+
+---
+
+### 2. **Database Systems**
+   Hibernate supports a variety of relational databases through database dialects. Examples include:
+   - **MySQL**
+   - **PostgreSQL**
+   - **Oracle Database**
+   - **Microsoft SQL Server**
+   - **SQLite**
+   - **DB2**
+   - **H2 Database**
+   - **Sybase**
+   - **MariaDB**
+   - Many others (via custom dialects).
+
+---
+
+### 3. **Query Languages**
+   - **HQL (Hibernate Query Language)**: An object-oriented query language similar to SQL but uses entity class and property names.
+   - **Criteria API**: A type-safe, programmatic query-building API.
+   - **Native SQL**: Allows developers to execute raw SQL queries.
+
+---
+
+### 4. **Java Frameworks**
+   - **Spring Framework**:
+     - Hibernate integrates with Spring for dependency injection and transaction management.
+     - Works seamlessly with Spring Data JPA for simplifying persistence.
+   - **Struts**:
+     - Hibernate integrates with Struts for building web applications.
+   - **Java EE**:
+     - Works with Java EE technologies like EJB (Enterprise JavaBeans) and JPA (Java Persistence API).
+   - **JSF (JavaServer Faces)**:
+     - Can be used as the persistence layer in JSF applications.
+   - **Grails**:
+     - Used in Groovy-based applications for ORM functionality.
+
+---
+
+### 5. **JPA (Java Persistence API)**
+   - Hibernate is a JPA-compliant ORM provider, meaning it can be used as the persistence implementation in JPA-based applications.
+
+---
+
+### 6. **Connection Pooling Libraries**
+   Hibernate supports connection pooling by integrating with:
+   - **HikariCP**
+   - **C3P0**
+   - **Apache DBCP**
+   - **BoneCP**
+
+---
+
+### 7. **Cache Providers**
+   Hibernate integrates with caching solutions for second-level caching and query caching:
+   - **Ehcache**
+   - **Infinispan**
+   - **Hazelcast**
+   - **Redis**
+   - **OSCache**
+
+---
+
+### 8. **Transaction Management**
+   - **JTA (Java Transaction API)**: For distributed transactions.
+   - **JDBC Transactions**: For database-level transaction management.
+   - **Spring Transactions**: For integration with Spring's transaction management framework.
+
+---
+
+### 9. **Application Servers**
+   Hibernate can run on any application server that supports Java, including:
+   - **Apache Tomcat**
+   - **JBoss/WildFly**
+   - **GlassFish**
+   - **WebLogic**
+   - **WebSphere**
+
+---
+
+### 10. **Development Tools**
+   - **Maven** and **Gradle**: For dependency management and building Hibernate-based projects.
+   - **Hibernate Tools**:
+     - Hibernate Console for querying.
+     - Reverse engineering tools for generating entity classes and configurations.
+   - **IDE Plugins**:
+     - Eclipse Hibernate Tools.
+     - IntelliJ IDEA Hibernate support.
+
+---
+
+### 11. **Framework Extensions**
+   - **Hibernate Envers**: For auditing and versioning of entities.
+   - **Hibernate Validator**: For bean validation using annotations.
+
+---
+
+### 12. **Cloud and Microservices Platforms**
+   - Hibernate can integrate with microservices platforms like:
+     - **Spring Boot** for building RESTful services.
+     - **Docker** and **Kubernetes** for containerized deployment.
+   - Supports cloud databases like:
+     - **Amazon RDS**
+     - **Google Cloud SQL**
+     - **Microsoft Azure SQL Database**
+
+---
+
+### 13. **NoSQL Support**
+   Hibernate supports NoSQL databases via:
+   - **Hibernate OGM (Object/Grid Mapper)**:
+     - MongoDB
+     - Cassandra
+     - CouchDB
+     - Neo4j
+
+---
+
+### 14. **Logging Frameworks**
+   Hibernate integrates with logging frameworks for monitoring and debugging:
+   - **SLF4J**
+   - **Log4j** / **Log4j2**
+   - **java.util.logging**
+
+---
+
+### 15. **Testing Frameworks**
+   - Hibernate can be used with testing frameworks like:
+     - **JUnit**
+     - **TestNG**
+     - **Mockito**
+   - Works with in-memory databases like **H2** and **HSQLDB** for testing purposes.
+
+---
+
+### Summary
+Hibernate supports a wide range of technologies, making it a flexible and robust framework for building scalable, portable, and database-independent Java applications. Its compatibility with databases, frameworks, tools, and platforms ensures that it can fit into almost any development stack.
+
+Q.What is HQL?
+-> **HQL (Hibernate Query Language)** is an object-oriented query language provided by Hibernate. It is similar to SQL (Structured Query Language) but is designed to work with Hibernate's object-relational mapping (ORM). Instead of dealing with database tables and columns, HQL allows developers to query, insert, update, and delete data using Java object entities and their attributes.
+
+---
+
+### Key Features of HQL:
+1. **Object-Oriented**:
+   - HQL operates on persistent objects and their properties rather than directly on database tables and columns.
+
+2. **Database Independence**:
+   - HQL abstracts the underlying SQL and database-specific details, making it portable across different databases.
+
+3. **Dynamic Queries**:
+   - HQL queries can be created dynamically during runtime.
+
+4. **Support for Relationships**:
+   - HQL can navigate entity relationships such as **One-to-One**, **One-to-Many**, and **Many-to-Many** using object references.
+
+5. **Rich Functionality**:
+   - HQL supports a wide range of SQL-like operations, including joins, aggregate functions, subqueries, and sorting.
+
+6. **Automatic Query Translation**:
+   - Hibernate translates HQL queries into native SQL, taking care of database-specific optimizations.
+
+---
+
+### Example of HQL Queries:
+
+#### 1. **Basic Select Query**:
+```java
+String hql = "FROM Employee"; // Fetch all Employee objects
+List<Employee> employees = session.createQuery(hql, Employee.class).list();
+```
+
+#### 2. **Conditional Query**:
+```java
+String hql = "FROM Employee E WHERE E.salary > :minSalary";
+Query<Employee> query = session.createQuery(hql, Employee.class);
+query.setParameter("minSalary", 50000);
+List<Employee> employees = query.list();
+```
+
+#### 3. **Join Query**:
+```java
+String hql = "SELECT E.name, D.name FROM Employee E JOIN E.department D";
+List<Object[]> results = session.createQuery(hql).list();
+for (Object[] result : results) {
+    System.out.println("Employee: " + result[0] + ", Department: " + result[1]);
+}
+```
+
+#### 4. **Aggregate Function**:
+```java
+String hql = "SELECT AVG(E.salary) FROM Employee E";
+Double averageSalary = session.createQuery(hql, Double.class).uniqueResult();
+System.out.println("Average Salary: " + averageSalary);
+```
+
+#### 5. **Update Query**:
+```java
+String hql = "UPDATE Employee SET salary = :newSalary WHERE id = :employeeId";
+Query query = session.createQuery(hql);
+query.setParameter("newSalary", 60000);
+query.setParameter("employeeId", 1);
+int rowsAffected = query.executeUpdate();
+System.out.println(rowsAffected + " row(s) updated.");
+```
+
+#### 6. **Delete Query**:
+```java
+String hql = "DELETE FROM Employee WHERE id = :employeeId";
+Query query = session.createQuery(hql);
+query.setParameter("employeeId", 1);
+int rowsDeleted = query.executeUpdate();
+System.out.println(rowsDeleted + " row(s) deleted.");
+```
+
+---
+
+### Advantages of HQL:
+1. **Ease of Use**: Queries are written in terms of Java objects and properties, making them intuitive.
+2. **Portability**: Abstracts database-specific SQL, allowing for easier database migration.
+3. **Relationship Handling**: Simplifies working with associated entities.
+4. **Less Error-Prone**: Reduces SQL syntax errors since queries are object-oriented.
+
+---
+
+### HQL vs SQL:
+| **Aspect**       | **HQL**                               | **SQL**                          |
+|-------------------|---------------------------------------|-----------------------------------|
+| **Focus**         | Operates on Java objects and their properties | Operates directly on tables and columns |
+| **Portability**   | Database-independent                 | Database-dependent               |
+| **Syntax**        | Object-oriented                      | Table-oriented                   |
+| **Relationships** | Handles relationships automatically  | Requires explicit joins          |
+| **Mapping**       | Uses mapped entity names and fields  | Uses table and column names      |
+
+---
+
+### Summary:
+HQL is a powerful query language in Hibernate that simplifies database operations by allowing developers to focus on Java objects instead of raw SQL queries. It is database-independent, intuitive, and supports advanced querying features, making it an essential tool for Hibernate-based applications.
+
+Q. Name some of the important interfaces of hibernate framework?
+-> Hibernate framework provides several important interfaces that serve as the core building blocks for performing ORM (Object-Relational Mapping) tasks. These interfaces define the key functionalities and are essential for interacting with Hibernate. Here are some of the most important interfaces in the Hibernate framework:
+
+---
+
+### 1. **`Configuration`**
+   - **Purpose**: Used to configure Hibernate and bootstrap the session factory.
+   - **Functionality**:
+     - Reads configuration properties from `hibernate.cfg.xml` or `hibernate.properties`.
+     - Maps entity classes to database tables.
+     - Builds the `SessionFactory`.
+   - **Example**:
+     ```java
+     Configuration configuration = new Configuration().configure();
+     SessionFactory sessionFactory = configuration.buildSessionFactory();
+     ```
+
+---
+
+### 2. **`SessionFactory`**
+   - **Purpose**: A factory for `Session` objects. It is a thread-safe and heavyweight object, usually created once per application.
+   - **Functionality**:
+     - Provides `Session` instances.
+     - Acts as a cache of compiled mappings for a single database.
+     - Maintains second-level cache.
+   - **Example**:
+     ```java
+     SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+     ```
+
+---
+
+### 3. **`Session`**
+   - **Purpose**: Represents a single-threaded unit of work with the database. Used for performing CRUD operations.
+   - **Functionality**:
+     - Provides methods like `save()`, `update()`, `delete()`, and `get()`.
+     - Manages first-level cache (session scope).
+     - Supports transaction management.
+   - **Example**:
+     ```java
+     Session session = sessionFactory.openSession();
+     session.beginTransaction();
+     Employee emp = session.get(Employee.class, 1);
+     session.getTransaction().commit();
+     session.close();
+     ```
+
+---
+
+### 4. **`Transaction`**
+   - **Purpose**: Abstracts transaction management for database operations.
+   - **Functionality**:
+     - Supports commit and rollback operations.
+     - Ensures atomicity of a group of operations.
+   - **Example**:
+     ```java
+     Transaction transaction = session.beginTransaction();
+     transaction.commit();
+     ```
+
+---
+
+### 5. **`Query`**
+   - **Purpose**: Represents a query object for HQL or native SQL queries.
+   - **Functionality**:
+     - Allows dynamic and parameterized query execution.
+     - Returns results in the form of lists or unique results.
+   - **Example**:
+     ```java
+     Query<Employee> query = session.createQuery("FROM Employee WHERE salary > :minSalary", Employee.class);
+     query.setParameter("minSalary", 50000);
+     List<Employee> employees = query.list();
+     ```
+
+---
+
+### 6. **`Criteria`** (Replaced by `CriteriaQuery` in JPA)
+   - **Purpose**: Used for creating and executing programmatic and type-safe queries.
+   - **Functionality**:
+     - Builds dynamic queries without using HQL.
+   - **Example**:
+     ```java
+     Criteria criteria = session.createCriteria(Employee.class);
+     criteria.add(Restrictions.gt("salary", 50000));
+     List<Employee> employees = criteria.list();
+     ```
+
+---
+
+### 7. **`CriteriaQuery`** (JPA-based)
+   - **Purpose**: A type-safe and modern replacement for `Criteria` in JPA.
+   - **Functionality**:
+     - Used for building complex queries programmatically.
+   - **Example**:
+     ```java
+     CriteriaBuilder builder = session.getCriteriaBuilder();
+     CriteriaQuery<Employee> query = builder.createQuery(Employee.class);
+     Root<Employee> root = query.from(Employee.class);
+     query.select(root).where(builder.gt(root.get("salary"), 50000));
+     List<Employee> employees = session.createQuery(query).getResultList();
+     ```
+
+---
+
+### 8. **`NativeQuery`**
+   - **Purpose**: Represents SQL queries that are directly executed against the database.
+   - **Functionality**:
+     - Allows raw SQL execution.
+     - Supports mapping of query results to entities or custom result sets.
+   - **Example**:
+     ```java
+     NativeQuery query = session.createNativeQuery("SELECT * FROM employees", Employee.class);
+     List<Employee> employees = query.list();
+     ```
+
+---
+
+### 9. **`ScrollableResults`**
+   - **Purpose**: Provides an interface for scrolling through the result set of a query.
+   - **Functionality**:
+     - Used for processing large result sets.
+   - **Example**:
+     ```java
+     ScrollableResults results = query.scroll();
+     while (results.next()) {
+         Employee emp = (Employee) results.get(0);
+     }
+     ```
+
+---
+
+### 10. **`Interceptor`**
+   - **Purpose**: Allows interception of entity operations like saving, updating, and deleting.
+   - **Functionality**:
+     - Used for logging, auditing, or custom validation.
+   - **Example**:
+     ```java
+     sessionFactory.withOptions().interceptor(new MyInterceptor()).openSession();
+     ```
+
+---
+
+### 11. **`StatelessSession`**
+   - **Purpose**: A lightweight version of `Session` for read-only or batch operations.
+   - **Functionality**:
+     - Does not maintain first-level cache.
+     - Suitable for performance-sensitive operations.
+   - **Example**:
+     ```java
+     StatelessSession statelessSession = sessionFactory.openStatelessSession();
+     ```
+
+---
+
+### Summary of Key Interfaces:
+| **Interface**       | **Purpose**                              |
+|----------------------|------------------------------------------|
+| `Configuration`      | Configures Hibernate and builds `SessionFactory`. |
+| `SessionFactory`     | Factory for creating `Session` objects. |
+| `Session`            | Manages database operations and first-level cache. |
+| `Transaction`        | Handles commit and rollback of transactions. |
+| `Query`              | Executes HQL queries.                   |
+| `Criteria`           | Builds dynamic queries (deprecated).    |
+| `CriteriaQuery`      | Builds JPA-compliant dynamic queries.   |
+| `NativeQuery`        | Executes native SQL queries.            |
+| `ScrollableResults`  | Scrolls through large query results.    |
+| `Interceptor`        | Intercepts entity lifecycle events.     |
+| `StatelessSession`   | Performs operations without caching.    |
+
+These interfaces provide the core functionality of Hibernate and are crucial for performing ORM tasks effectively.
+
+Q.What is the role of SessionFactory?How is it diffenent from a Session?
+-> ### **Role of `SessionFactory` in Hibernate**
+
+The `SessionFactory` is one of the core interfaces in Hibernate. It acts as a factory for creating `Session` objects and is responsible for managing the lifecycle of these sessions. It is designed to be a heavyweight object, meaning it should be created once and reused throughout the application.
+
+#### **Key Roles of `SessionFactory`:**
+1. **Configuration and Bootstrapping**:
+   - It is built using the `Configuration` object, which specifies Hibernate configuration details like database connection, dialect, and mapping files.
+   - It initializes Hibernate's internal components, such as connection pooling and caching.
+
+2. **Session Creation**:
+   - The primary purpose of `SessionFactory` is to provide `Session` objects for interacting with the database.
+   - Example:
+     ```java
+     SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+     Session session = sessionFactory.openSession();
+     ```
+
+3. **Caching**:
+   - **Second-Level Cache**:
+     - Maintains a second-level cache for the entire application, shared across multiple sessions. This improves performance by reducing the number of database calls.
+   - **Query Cache**:
+     - Stores the results of frequently executed HQL queries.
+
+4. **Thread Safety**:
+   - `SessionFactory` is thread-safe and can be shared across multiple threads.
+   - It is typically implemented as a singleton to ensure only one instance exists.
+
+5. **Connection Management**:
+   - Handles database connections and provides a connection pool for efficient connection reuse.
+
+---
+
+### **Difference Between `SessionFactory` and `Session`**
+
+| **Aspect**             | **SessionFactory**                                          | **Session**                                               |
+|-------------------------|------------------------------------------------------------|----------------------------------------------------------|
+| **Definition**          | A factory for creating `Session` objects.                  | Represents a single-threaded unit of work with the database. |
+| **Lifecycle**           | Created once and used throughout the application lifecycle. | Short-lived; created per transaction or per unit of work. |
+| **Thread-Safety**       | Thread-safe and reusable across threads.                   | Not thread-safe; should not be shared between threads.    |
+| **Caching**             | Manages second-level cache and query cache.                | Manages first-level cache (session scope).               |
+| **Scope**               | Application-wide.                                          | Specific to a particular client request or transaction.  |
+| **Usage**               | Used to configure Hibernate and build sessions.            | Used for CRUD operations and managing persistent objects. |
+| **Performance**         | Heavyweight object; consumes more memory during initialization. | Lightweight object; created as needed and discarded.      |
+
+---
+
+### **Example of Usage**
+
+#### **Creating a `SessionFactory`**:
+The `SessionFactory` is typically created once during application startup:
+```java
+SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+```
+
+#### **Creating and Using a `Session`**:
+The `Session` is created for each database operation:
+```java
+Session session = sessionFactory.openSession();
+Transaction transaction = session.beginTransaction();
+
+// Perform database operations
+Employee emp = session.get(Employee.class, 1);
+transaction.commit();
+session.close();
+```
+
+---
+
+### **Why is `SessionFactory` Heavyweight and `Session` Lightweight?**
+
+- **`SessionFactory`**:
+  - Contains database connection details, mappings, and cache configurations.
+  - Maintains metadata for all entity mappings.
+  - Initializes and manages second-level cache.
+  - Since it is an expensive resource, it is designed to be created only once and reused.
+
+- **`Session`**:
+  - Represents a lightweight and short-lived object that is responsible for a single unit of work.
+  - Manages a temporary first-level cache for the duration of its lifecycle.
+
+---
+
+### **Best Practices**
+1. **Singleton Pattern for `SessionFactory`**:
+   - Ensure only one `SessionFactory` instance is created for the application.
+2. **Session Scope**:
+   - Always open and close `Session` objects within a transaction to avoid memory leaks.
+   - Use `Session` per request or per transaction model.
+
+---
+
+### Summary
+- **`SessionFactory`** is the heavyweight, thread-safe object responsible for creating `Session` objects and managing application-wide resources like second-level cache and database connections.
+- **`Session`** is a lightweight, non-thread-safe object used for performing database operations and managing the first-level cache for a single unit of work.
+
+Q. Explain First-Level-Cache in hibernate?
+-> ### **First-Level Cache in Hibernate**
+
+The **First-Level Cache** in Hibernate is the default caching mechanism provided by the framework. It is associated with the `Session` object and exists for the duration of the session. The first-level cache stores objects and their state in memory, ensuring that multiple operations on the same entity within a single session do not result in repeated database queries.
+
+---
+
+### **Key Characteristics of First-Level Cache**
+
+1. **Enabled by Default**:
+   - The first-level cache is built into Hibernate and is always enabled. Developers do not need to configure or enable it explicitly.
+
+2. **Session Scope**:
+   - It is bound to the lifecycle of a `Session`. Once the session is closed, the cache is cleared.
+
+3. **Object Identity**:
+   - Hibernate ensures that within the same session, multiple retrievals of the same entity with the same identifier (primary key) return the same object instance.
+
+4. **Write-Through Cache**:
+   - Any changes made to the cached entity are automatically synchronized with the database during transaction commit or session flush.
+
+5. **No Configuration Required**:
+   - Since it is part of the session, no additional configuration is necessary.
+
+---
+
+### **How Does First-Level Cache Work?**
+
+1. **Entity Retrieval**:
+   - When you retrieve an entity using methods like `get()` or `load()`, Hibernate first checks the first-level cache.
+   - If the entity is found in the cache, it is returned directly, avoiding a database query.
+   - If not found, Hibernate queries the database and stores the retrieved entity in the cache.
+
+2. **Multiple Accesses**:
+   - Any subsequent access to the same entity during the same session uses the cached copy.
+
+3. **Automatic Eviction**:
+   - The cached data is automatically cleared when the session is closed.
+
+---
+
+### **Example of First-Level Cache**
+
+#### Code Illustration:
+```java
+SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+Session session = sessionFactory.openSession();
+
+// Retrieve entity for the first time (triggers a database query)
+Employee emp1 = session.get(Employee.class, 1);
+System.out.println(emp1.getName()); // Fetches from database
+
+// Retrieve the same entity again (uses first-level cache)
+Employee emp2 = session.get(Employee.class, 1);
+System.out.println(emp2.getName()); // Fetches from cache, no database query
+
+session.close();
+```
+
+#### Explanation:
+- In the above example, the first query to retrieve `Employee` with ID `1` will hit the database.
+- The subsequent query for the same ID in the same session retrieves the entity from the cache, avoiding a database query.
+
+---
+
+### **When Does First-Level Cache Get Cleared?**
+
+1. **Session Closure**:
+   - When the session is closed, all cached entities are discarded.
+
+2. **Explicit Eviction**:
+   - You can explicitly evict entities from the cache using the `evict()` or `clear()` methods:
+     ```java
+     session.evict(emp1); // Removes a specific entity from the cache
+     session.clear(); // Clears the entire first-level cache
+     ```
+
+3. **Session Flush**:
+   - When the session is flushed (e.g., during a transaction commit), Hibernate synchronizes the cache with the database, though it does not clear the cache.
+
+---
+
+### **Benefits of First-Level Cache**
+
+1. **Improved Performance**:
+   - Reduces redundant database queries by serving cached data for repeated requests.
+   
+2. **Reduced Database Load**:
+   - Minimizes the number of database accesses within a session.
+
+3. **Consistency**:
+   - Ensures that the same entity instance is used throughout the session, maintaining object identity.
+
+---
+
+### **Limitations of First-Level Cache**
+
+1. **Session Scope**:
+   - The cache is limited to the session's lifecycle, so it cannot be shared across sessions.
+
+2. **Memory Usage**:
+   - Since the cache is in memory, excessive caching in long-lived sessions can lead to memory consumption issues.
+
+3. **Eviction Challenges**:
+   - Developers must explicitly manage eviction if required, especially for large sessions.
+
+---
+
+### **Comparison with Second-Level Cache**
+
+| **Aspect**            | **First-Level Cache**                        | **Second-Level Cache**                       |
+|------------------------|----------------------------------------------|----------------------------------------------|
+| **Scope**             | Session-specific                            | Application-wide (shared across sessions).   |
+| **Configuration**     | Enabled by default, no configuration needed | Requires explicit configuration.             |
+| **Clearing**          | Cleared when session ends                   | Persists beyond session lifecycle.           |
+| **Usage**             | For frequently accessed data within a session | For frequently accessed data across sessions.|
+
+---
+
+### **Summary**
+The first-level cache is a fundamental feature of Hibernate that optimizes database interactions by caching objects at the session level. It improves performance and ensures efficient resource utilization. However, for application-wide caching, the second-level cache is recommended.
+
+Q.What is the difference between get() and load() method?
+-> The `get()` and `load()` methods in Hibernate are used to retrieve objects from the database, but they differ in how they operate and their behavior. Here's a detailed comparison:
+
+---
+
+### **Key Differences Between `get()` and `load()`**
+
+| **Aspect**               | **`get()` Method**                          | **`load()` Method**                          |
+|--------------------------|---------------------------------------------|---------------------------------------------|
+| **Behavior**             | Fetches the object immediately from the database. | Returns a proxy object; fetches data lazily only when needed. |
+| **Timing of Query Execution** | Executes a database query immediately.     | Executes the query only when a method on the proxy object is called. |
+| **Return Value if Not Found** | Returns `null` if the object is not found. | Throws `ObjectNotFoundException` if the object is not found. |
+| **Use Case**             | Use when you are unsure if the object exists and you need immediate access. | Use when you are sure the object exists and want lazy loading to optimize performance. |
+| **Performance**          | Less efficient if the object is not immediately needed. | More efficient because it delays database access until required. |
+| **Proxy Object**         | Does not return a proxy object.              | Returns a proxy object instead of the actual object. |
+| **Usage Scenario**       | Suitable for immediate access or when the object may not exist. | Suitable for accessing objects with certainty that they exist. |
+
+---
+
+### **Detailed Explanation**
+
+#### **1. `get()` Method**
+- **Description**:
+  - Retrieves the object immediately from the database.
+  - If the object does not exist, it returns `null`.
+- **Use Case**:
+  - Use `get()` when you need the actual data and are unsure if the record exists.
+- **Example**:
+  ```java
+  Employee emp = session.get(Employee.class, 1);
+  if (emp == null) {
+      System.out.println("Employee not found!");
+  } else {
+      System.out.println(emp.getName());
+  }
+  ```
+- **Query Execution**:
+  - A database query is executed immediately when the `get()` method is called.
+
+---
+
+#### **2. `load()` Method**
+- **Description**:
+  - Retrieves a proxy object instead of immediately querying the database.
+  - The actual data is fetched only when a method on the proxy object is accessed.
+  - Throws an exception if the object is not found.
+- **Use Case**:
+  - Use `load()` when you are certain the object exists in the database and want to improve performance with lazy loading.
+- **Example**:
+  ```java
+  Employee emp = session.load(Employee.class, 1);
+  System.out.println(emp.getName()); // Database query is executed here
+  ```
+- **Proxy Object**:
+  - The returned proxy object acts as a placeholder. Actual data is fetched only when required.
+- **Query Execution**:
+  - The database query is executed when an operation like `getName()` is performed on the proxy.
+
+---
+
+### **When to Use Which?**
+
+#### Use `get()`:
+1. If you want the object immediately.
+2. When you are unsure if the record exists.
+3. If null-safe operations are necessary.
+
+#### Use `load()`:
+1. For performance optimization with lazy loading.
+2. When you are certain the object exists.
+3. For use cases where proxy objects are sufficient initially (e.g., relationships).
+
+---
+
+### **Example Demonstration**
+
+#### Code:
+```java
+// Using get()
+Employee emp1 = session.get(Employee.class, 1);
+if (emp1 != null) {
+    System.out.println("Name (get): " + emp1.getName());
+} else {
+    System.out.println("Employee not found using get()");
+}
+
+// Using load()
+try {
+    Employee emp2 = session.load(Employee.class, 1);
+    System.out.println("Name (load): " + emp2.getName()); // Query executed here
+} catch (ObjectNotFoundException e) {
+    System.out.println("Employee not found using load()");
+}
+```
+
+#### Output (assuming Employee with ID 1 exists):
+```
+Name (get): John Doe
+Name (load): John Doe
+```
+
+#### Output (if Employee with ID 1 does not exist):
+```
+Employee not found using get()
+Exception in thread "main" org.hibernate.ObjectNotFoundException: No row with the given identifier exists
+```
+
+---
+
+### **Summary Table**
+
+| **Scenario**                        | **Use `get()`**                        | **Use `load()`**                        |
+|-------------------------------------|----------------------------------------|----------------------------------------|
+| Need immediate access to data.       | Yes                                    | No                                     |
+| Unsure if the object exists.         | Yes                                    | No                                     |
+| Need lazy loading for performance.   | No                                     | Yes                                    |
+| Want to handle missing objects gracefully. | Yes (`null` is returned)               | No (exception is thrown)              |
+
+Choose `get()` for immediate, safe access and `load()` for optimized performance when certain of the object's existence.
+
+Q. How does hibernate achieve database independence?
+-> Hibernate achieves **database independence** through the following key mechanisms:
+
+---
+
+### **1. Hibernate Configuration (Database Dialect)**
+- **Database Dialect**: Hibernate abstracts away database-specific details through the use of a `Dialect` class, which allows it to communicate with different databases without requiring changes to the application code.
+- The `Dialect` class in Hibernate contains methods for generating SQL specific to the database in use. By selecting the correct dialect, Hibernate can generate the appropriate SQL for the underlying database (e.g., MySQL, Oracle, SQL Server, etc.).
+  
+  - Example:
+    ```xml
+    <hibernate-configuration>
+        <session-factory>
+            <!-- Database Dialect -->
+            <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        </session-factory>
+    </hibernate-configuration>
+    ```
+
+  The `hibernate.dialect` property ensures that Hibernate generates SQL statements in the syntax and structure supported by the specific database, while the application remains unchanged.
+
+---
+
+### **2. Object-Relational Mapping (ORM)**
+- **Entity Mapping**: Hibernate uses annotations or XML configuration to map Java objects (entities) to database tables. This mapping is independent of the specific database.
+  - Each Java class is mapped to a table, and each field (property) is mapped to a column in that table. Hibernate handles the creation of the necessary SQL queries to interact with the database, abstracting the developer from direct SQL management.
+
+- **Example of Mapping**:
+    ```java
+    @Entity
+    @Table(name = "Employee")
+    public class Employee {
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private int id;
+        
+        @Column(name = "name")
+        private String name;
+        
+        // Getters and setters
+    }
+    ```
+  - Hibernate uses the metadata provided by the annotations to generate database-agnostic SQL queries.
+
+---
+
+### **3. HQL (Hibernate Query Language)**
+- **Database-Independent Queries**: Hibernate Query Language (HQL) is an object-oriented query language similar to SQL but operates on persistent objects (entities) rather than database tables. 
+- HQL allows developers to query entities, regardless of the underlying database. Hibernate internally translates HQL into the correct SQL dialect for the database being used.
+  
+  - Example of HQL:
+    ```java
+    Query query = session.createQuery("FROM Employee WHERE salary > :minSalary");
+    query.setParameter("minSalary", 50000);
+    List<Employee> employees = query.list();
+    ```
+  - This query will be converted by Hibernate into the appropriate SQL for the specific database (e.g., MySQL, Oracle).
+
+---
+
+### **4. JDBC Abstraction**
+- **Database Communication**: Hibernate abstracts the underlying JDBC calls. When performing CRUD operations, Hibernate uses JDBC under the hood but hides the low-level implementation from the developer.
+  - It does not require direct JDBC code like `Connection`, `Statement`, and `ResultSet` management. Hibernate provides an abstraction that automatically maps the results to Java objects.
+  
+- Hibernate ensures that the same Java code works with different databases by managing the connections, transactions, and result mapping.
+
+---
+
+### **5. Automatic Schema Generation**
+- **Database Schema Creation**: Hibernate can automatically generate the database schema (tables, constraints, etc.) based on the entity mappings, without relying on specific database features or tools.
+- The schema generation is flexible and can be configured for different database backends, ensuring that the same code works across multiple databases.
+
+  - Example configuration in `hibernate.cfg.xml`:
+    ```xml
+    <property name="hibernate.hbm2ddl.auto">update</property>
+    ```
+
+  This property controls how Hibernate generates or updates the database schema. Hibernate can automatically adjust the schema based on the entity classes, making it database-agnostic.
+
+---
+
+### **6. Transaction Management**
+- **Database-Independent Transactions**: Hibernate provides a unified approach for transaction management, which can work with different transaction systems like JDBC, JTA (Java Transaction API), or third-party transaction managers.
+- Hibernate abstracts the underlying transaction management mechanism so the same application code can work with different databases or even different transaction systems.
+
+  - Example:
+    ```java
+    Transaction transaction = session.beginTransaction();
+    session.save(employee);
+    transaction.commit();
+    ```
+
+  Hibernate manages the transaction boundaries and ensures compatibility with the underlying database’s transaction system.
+
+---
+
+### **7. JDBC Connection Pooling**
+- **Connection Pooling Support**: Hibernate integrates with various third-party connection pool providers (e.g., HikariCP, C3P0) to manage database connections. This allows for seamless connection management, independent of the underlying database.
+  
+  - Example in `hibernate.cfg.xml` for connection pooling:
+    ```xml
+    <property name="hibernate.c3p0.min_size">5</property>
+    <property name="hibernate.c3p0.max_size">20</property>
+    ```
+
+  Hibernate manages the database connection pool regardless of the specific database being used.
+
+---
+
+### **8. Dialect-Driven Optimizations**
+- **Database-Specific Optimizations**: Hibernate can use the dialect class to implement database-specific optimizations. While the core application code remains database-agnostic, Hibernate can use specific SQL features to optimize performance on different databases.
+
+  - For example, certain databases support features like `LIMIT` for pagination, while others support `TOP`. Hibernate abstracts this difference using the dialect mechanism.
+
+---
+
+### **9. Platform-Independent Data Types**
+- **Cross-Database Type Handling**: Hibernate abstracts differences in data types across databases. For example, the mapping of `Date` or `Timestamp` in Java may vary between databases. Hibernate uses `@Temporal` and `@Type` annotations to map these types consistently, regardless of the underlying database.
+
+  - Example:
+    ```java
+    @Temporal(TemporalType.DATE)
+    private Date birthDate;
+    ```
+
+  Hibernate ensures the appropriate handling of temporal data types (like `DATE`, `TIME`, `TIMESTAMP`) based on the database dialect.
+
+---
+
+### **In Summary:**
+Hibernate achieves **database independence** through:
+- Use of **dialects** for translating SQL queries into database-specific syntax.
+- **Object-relational mapping (ORM)** that abstracts the underlying database structure.
+- **HQL (Hibernate Query Language)**, which allows querying entities without relying on specific SQL syntax.
+- **Automatic schema generation** and **transaction management** that work consistently across different databases.
+- **JDBC abstraction**, connection pooling, and **database-specific optimizations** to manage cross-database operations efficiently.
+
+This abstraction layer allows developers to write database-agnostic code while Hibernate handles the database-specific implementation details.
+
+Q. Explain @Entity, @Table and @Column annotations in hibernate?
+-> In Hibernate, the `@Entity`, `@Table`, and `@Column` annotations are used for mapping Java classes to database tables and their fields to table columns. These annotations are part of the **Java Persistence API (JPA)**, which Hibernate implements.
+
+---
+
+### **1. @Entity**
+- **Purpose**: Marks a class as a persistent entity, which means it maps to a database table.
+- **Placement**: Applied to the class level.
+- **Key Characteristics**:
+  - Required for any class that needs to be managed by Hibernate as a database entity.
+  - The name of the entity defaults to the class name but can be overridden using the `name` attribute.
+  - The class must have a default (no-argument) constructor and a primary key (`@Id`) field.
+
+- **Example**:
+    ```java
+    import jakarta.persistence.Entity;
+
+    @Entity
+    public class Employee {
+        @Id
+        private int id;
+        private String name;
+        private double salary;
+    }
+    ```
+  - This maps the `Employee` class to a table named `Employee` in the database.
+
+---
+
+### **2. @Table**
+- **Purpose**: Specifies the name of the table in the database to which the entity is mapped.
+- **Placement**: Applied to the class level (along with `@Entity`).
+- **Attributes**:
+  - `name`: Defines the table name (optional, defaults to the entity name).
+  - `schema`: Specifies the database schema (optional).
+  - `catalog`: Specifies the database catalog (optional).
+
+- **Key Characteristics**:
+  - Useful when the table name in the database differs from the entity class name.
+  - Helps in specifying schema or catalog details for better database organization.
+
+- **Example**:
+    ```java
+    import jakarta.persistence.Entity;
+    import jakarta.persistence.Table;
+
+    @Entity
+    @Table(name = "EMPLOYEE_TABLE", schema = "HR")
+    public class Employee {
+        @Id
+        private int id;
+        private String name;
+        private double salary;
+    }
+    ```
+  - Maps the `Employee` class to the table `EMPLOYEE_TABLE` in the `HR` schema.
+
+---
+
+### **3. @Column**
+- **Purpose**: Specifies the mapping between a field or property in the entity class and a column in the database table.
+- **Placement**: Applied to fields or properties of the class.
+- **Attributes**:
+  - `name`: Specifies the column name in the table (optional, defaults to the property name).
+  - `nullable`: Defines whether the column allows `NULL` values (default is `true`).
+  - `unique`: Specifies whether the column should have unique values (default is `false`).
+  - `length`: Specifies the maximum length for string columns (default is 255).
+  - `precision` and `scale`: Used for numeric types, defining precision (total digits) and scale (digits after the decimal point).
+
+- **Key Characteristics**:
+  - Allows fine-grained control over the database schema.
+  - Maps entity fields to table columns with specific names and constraints.
+
+- **Example**:
+    ```java
+    import jakarta.persistence.Entity;
+    import jakarta.persistence.Table;
+    import jakarta.persistence.Column;
+
+    @Entity
+    @Table(name = "EMPLOYEE_TABLE")
+    public class Employee {
+        @Id
+        private int id;
+
+        @Column(name = "EMP_NAME", nullable = false, length = 100)
+        private String name;
+
+        @Column(name = "EMP_SALARY", precision = 10, scale = 2)
+        private double salary;
+    }
+    ```
+  - Maps:
+    - `id` to the default column `id`.
+    - `name` to the column `EMP_NAME`, which is not nullable and has a maximum length of 100 characters.
+    - `salary` to the column `EMP_SALARY`, with 10 digits in total and 2 digits after the decimal point.
+
+---
+
+### **How They Work Together**
+When combined, these annotations define the mapping between a Java class and its database table:
+- `@Entity` identifies the class as a database entity.
+- `@Table` specifies the table name and schema (if needed).
+- `@Column` customizes the mapping for specific fields.
+
+---
+
+### **Complete Example**
+
+```java
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+
+@Entity
+@Table(name = "EMPLOYEE_TABLE", schema = "HR")
+public class Employee {
+    
+    @Id
+    @Column(name = "EMP_ID")
+    private int id;
+
+    @Column(name = "EMP_NAME", nullable = false, length = 100)
+    private String name;
+
+    @Column(name = "EMP_SALARY", precision = 10, scale = 2)
+    private double salary;
+
+    // Getters and Setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+}
+```
+
+### **Resulting Table Structure**
+For the above mapping, the generated table might look like this in SQL:
+
+```sql
+CREATE TABLE HR.EMPLOYEE_TABLE (
+    EMP_ID INT PRIMARY KEY,
+    EMP_NAME VARCHAR(100) NOT NULL,
+    EMP_SALARY NUMERIC(10, 2)
+);
+```
+
+---
+
+### **Summary**
+- `@Entity`: Declares the class as a Hibernate-managed entity.
+- `@Table`: Defines the table name, schema, and catalog for the entity.
+- `@Column`: Customizes the mapping of entity fields to table columns, with options for column constraints and characteristics.
+
+These annotations together allow Hibernate to seamlessly map Java objects to relational database tables, enabling Object-Relational Mapping (ORM).
+
+Q. What is HQL? how is it different from SQL?
+-> ### **What is HQL (Hibernate Query Language)?**
+Hibernate Query Language (HQL) is an **object-oriented query language** provided by Hibernate. It is used to perform database operations using entities (Java objects) instead of directly interacting with database tables. HQL is designed to work with Hibernate's object-relational mapping (ORM), enabling developers to write queries in terms of Java object properties rather than table columns.
+
+---
+
+### **Key Characteristics of HQL**
+1. **Object-Oriented**:
+   - HQL queries are written using the names of Java classes and their properties (fields), not table or column names.
+   - Example: `FROM Employee WHERE salary > :minSalary`.
+
+2. **Database Independent**:
+   - HQL abstracts database-specific SQL syntax. Hibernate translates HQL into database-specific SQL queries based on the configured dialect.
+
+3. **Powerful Features**:
+   - Supports joins, aggregations, ordering, and groupings.
+   - Can query relationships (e.g., `OneToMany` or `ManyToOne`) using object associations.
+
+4. **Case Sensitivity**:
+   - Class names and field names in HQL are case-sensitive because they correspond to Java class and property names.
+   - SQL keywords in HQL are case-insensitive.
+
+---
+
+### **How HQL Differs from SQL**
+
+| **Aspect**                 | **HQL**                                                      | **SQL**                                                      |
+|----------------------------|-------------------------------------------------------------|-------------------------------------------------------------|
+| **Focus**                  | Works with Java objects and their properties.               | Works with database tables and their columns.               |
+| **Abstraction**            | Provides an abstraction layer over the database schema.     | Directly tied to the database schema.                       |
+| **Query Entities**         | Queries are written using entity names (e.g., `Employee`).  | Queries are written using table names (e.g., `employee_table`). |
+| **Field References**       | Uses class fields (e.g., `salary`).                         | Uses column names (e.g., `emp_salary`).                     |
+| **Database Independence**  | Abstracts database-specific details (dialect-driven).       | Database-specific syntax must be used.                     |
+| **Relationship Queries**   | Supports queries on mapped relationships (e.g., `OneToMany`). | Requires explicit joins and relationship handling.          |
+| **Return Type**            | Returns entity objects.                                     | Returns raw data (e.g., rows of data).                      |
+| **Case Sensitivity**       | Class and property names are case-sensitive.                | Table and column names may not be case-sensitive.           |
+
+---
+
+### **Example Comparison:**
+
+#### Query to Fetch All Employees with a Salary Greater than a Given Amount
+
+**HQL:**
+```java
+Query query = session.createQuery("FROM Employee WHERE salary > :minSalary");
+query.setParameter("minSalary", 50000);
+List<Employee> employees = query.list();
+```
+- **Explanation**:
+  - `Employee` refers to the Java entity class.
+  - `salary` refers to the field in the `Employee` class.
+
+**SQL:**
+```sql
+SELECT * FROM EMPLOYEE_TABLE WHERE EMP_SALARY > 50000;
+```
+- **Explanation**:
+  - `EMPLOYEE_TABLE` refers to the database table name.
+  - `EMP_SALARY` refers to the database column.
+
+---
+
+### **Advantages of HQL Over SQL**
+1. **Object-Oriented**: HQL operates on entity objects, which is more natural for Java developers.
+2. **Database Independence**: HQL queries remain the same, even if the underlying database changes.
+3. **Relationship Handling**: HQL can navigate relationships directly, leveraging Hibernate's mapping.
+4. **Automatic Mapping**: Results are automatically mapped to Java objects.
+5. **Reduced Boilerplate**: No need to manage JDBC code like connections and result sets.
+
+---
+
+### **Key Features of HQL**
+1. **Joins**: Query relationships between entities.
+   ```java
+   String hql = "SELECT e FROM Employee e JOIN e.department d WHERE d.name = :deptName";
+   ```
+2. **Aggregations**: Perform calculations.
+   ```java
+   String hql = "SELECT AVG(e.salary) FROM Employee e WHERE e.department = :dept";
+   ```
+3. **Named Parameters**: Use placeholders for dynamic values.
+   ```java
+   String hql = "FROM Employee WHERE salary > :minSalary";
+   ```
+4. **Pagination**: Limit and offset results.
+   ```java
+   query.setMaxResults(10).setFirstResult(0);
+   ```
+
+---
+
+### **Limitations of HQL**
+1. Dependent on Hibernate: HQL can only be used in applications using Hibernate.
+2. Learning Curve: Requires understanding of Hibernate ORM concepts and entity mappings.
+
+---
+
+### **When to Use HQL**
+- When working with Hibernate ORM to query mapped entities.
+- To simplify database operations using Java objects rather than raw SQL.
+- To ensure database independence in queries.
+
+HQL provides an abstraction over SQL, making it easier and more intuitive for Java developers working with Hibernate-based applications.
+
+Q. How do you perform pagination in hibernate?
+-> Pagination in Hibernate is performed using the `Query` or `Criteria` interfaces. It allows fetching a specific subset of results from a larger dataset, typically to display data in pages. Hibernate achieves this by setting the **starting position** (`firstResult`) and the **maximum number of records** (`maxResults`) to fetch in a query.
+
+---
+
+### **Steps for Pagination in Hibernate**
+
+#### **1. Using HQL (Hibernate Query Language)**
+
+You can use the `setFirstResult` and `setMaxResults` methods of the `Query` interface to define pagination.
+
+```java
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+
+public class PaginationExample {
+    public static void main(String[] args) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        // Start a transaction
+        session.beginTransaction();
+
+        // Create HQL query
+        String hql = "FROM Employee ORDER BY id";
+        Query<Employee> query = session.createQuery(hql, Employee.class);
+
+        // Set pagination parameters
+        int pageNumber = 2;
+        int pageSize = 5;
+        query.setFirstResult((pageNumber - 1) * pageSize); // Start index
+        query.setMaxResults(pageSize);                    // Number of records per page
+
+        // Execute the query
+        List<Employee> employees = query.list();
+
+        // Print results
+        employees.forEach(System.out::println);
+
+        // Commit transaction and close session
+        session.getTransaction().commit();
+        session.close();
+    }
+}
+```
+
+- **Key Parameters**:
+  - `setFirstResult`: Specifies the starting position (zero-based index).
+  - `setMaxResults`: Specifies the maximum number of records to fetch.
+
+---
+
+#### **2. Using Criteria API**
+
+Hibernate's `Criteria` API (deprecated in Hibernate 5 but still used in legacy applications) also supports pagination through `setFirstResult` and `setMaxResults`.
+
+```java
+import org.hibernate.Session;
+import org.hibernate.Criteria;
+
+public class CriteriaPaginationExample {
+    public static void main(String[] args) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        // Start a transaction
+        session.beginTransaction();
+
+        // Create Criteria
+        Criteria criteria = session.createCriteria(Employee.class);
+
+        // Set pagination parameters
+        int pageNumber = 2;
+        int pageSize = 5;
+        criteria.setFirstResult((pageNumber - 1) * pageSize); // Start index
+        criteria.setMaxResults(pageSize);                    // Number of records per page
+
+        // Execute query
+        List<Employee> employees = criteria.list();
+
+        // Print results
+        employees.forEach(System.out::println);
+
+        // Commit transaction and close session
+        session.getTransaction().commit();
+        session.close();
+    }
+}
+```
+
+---
+
+#### **3. Using Native SQL**
+
+If you prefer raw SQL queries, Hibernate also supports pagination with native SQL.
+
+```java
+import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
+
+public class NativePaginationExample {
+    public static void main(String[] args) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        // Start a transaction
+        session.beginTransaction();
+
+        // Create Native SQL query
+        String sql = "SELECT * FROM Employee ORDER BY id";
+        NativeQuery<Employee> query = session.createNativeQuery(sql, Employee.class);
+
+        // Set pagination parameters
+        int pageNumber = 3;
+        int pageSize = 10;
+        query.setFirstResult((pageNumber - 1) * pageSize); // Start index
+        query.setMaxResults(pageSize);                    // Number of records per page
+
+        // Execute query
+        List<Employee> employees = query.list();
+
+        // Print results
+        employees.forEach(System.out::println);
+
+        // Commit transaction and close session
+        session.getTransaction().commit();
+        session.close();
+    }
+}
+```
+
+---
+
+### **Example Output**
+For a dataset of 20 employees with `pageSize = 5` and `pageNumber = 2`, the query will fetch employees **6 to 10**.
+
+---
+
+### **Benefits of Pagination in Hibernate**
+1. **Optimized Resource Usage**: Reduces memory and bandwidth usage by fetching only the required data.
+2. **Improved Performance**: Limits the number of records returned from the database.
+3. **User-Friendly**: Facilitates data display in manageable chunks (e.g., in web or desktop applications).
+
+---
+
+### **Best Practices for Pagination**
+1. **Indexing**: Ensure the columns used in the `ORDER BY` clause are indexed for better performance.
+2. **Consistent Sorting**: Use `ORDER BY` to maintain consistent and predictable pagination results.
+3. **Caching**: Use Hibernate's second-level cache if applicable to reduce database load.
+4. **Efficient Queries**: Avoid fetching unnecessary columns when using native SQL.
+
+---
+
+Pagination is a common requirement in applications, and Hibernate provides multiple approaches to handle it efficiently while abstracting many low-level details.
+
+Q. What is named queries? and how are then used in hibernate?
+-> ### **What are Named Queries in Hibernate?**
+A **Named Query** in Hibernate is a pre-defined, reusable query associated with an entity class. It is defined using the `@NamedQuery` or `@NamedQueries` annotations (for multiple named queries) or in the `hibernate.cfg.xml`/`hbm.xml` file. Named queries allow you to define queries once and use them throughout your application, promoting reuse and reducing the likelihood of runtime query syntax errors.
+
+Named queries can be written in:
+- **HQL (Hibernate Query Language)**: Using `@NamedQuery`.
+- **Native SQL**: Using `@NamedNativeQuery`.
+
+---
+
+### **Why Use Named Queries?**
+1. **Reusability**: Define once, reuse multiple times.
+2. **Performance**: Named queries are precompiled at startup, reducing query parsing time during runtime.
+3. **Maintainability**: Centralize query definitions for easier maintenance.
+4. **Readability**: Improves code readability by abstracting query details from the business logic.
+
+---
+
+### **Defining Named Queries**
+
+#### **1. Using `@NamedQuery` Annotation**
+The `@NamedQuery` annotation is used to define a single named query.
+
+**Example:**
+```java
+import jakarta.persistence.Entity;
+import jakarta.persistence.NamedQuery;
+
+@Entity
+@NamedQuery(name = "Employee.findBySalary", query = "FROM Employee WHERE salary > :minSalary")
+public class Employee {
+    @Id
+    private int id;
+    private String name;
+    private double salary;
+
+    // Getters and Setters
+}
+```
+
+- **`name`**: A unique name for the query.
+- **`query`**: The HQL query string.
+
+---
+
+#### **2. Using `@NamedQueries` Annotation**
+The `@NamedQueries` annotation is used to define multiple named queries for a single entity.
+
+**Example:**
+```java
+import jakarta.persistence.Entity;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
+
+@Entity
+@NamedQueries({
+    @NamedQuery(name = "Employee.findBySalary", query = "FROM Employee WHERE salary > :minSalary"),
+    @NamedQuery(name = "Employee.findByName", query = "FROM Employee WHERE name = :name")
+})
+public class Employee {
+    @Id
+    private int id;
+    private String name;
+    private double salary;
+
+    // Getters and Setters
+}
+```
+
+---
+
+#### **3. Using `@NamedNativeQuery` Annotation**
+`@NamedNativeQuery` is used for defining native SQL queries.
+
+**Example:**
+```java
+import jakarta.persistence.Entity;
+import jakarta.persistence.NamedNativeQuery;
+
+@Entity
+@NamedNativeQuery(name = "Employee.findAll", query = "SELECT * FROM Employee", resultClass = Employee.class)
+public class Employee {
+    @Id
+    private int id;
+    private String name;
+    private double salary;
+
+    // Getters and Setters
+}
+```
+
+- **`query`**: The SQL query string.
+- **`resultClass`**: Maps the result set to the specified entity class.
+
+---
+
+#### **4. Using XML Configuration**
+Named queries can also be defined in the `hibernate.cfg.xml` or mapping XML file (`.hbm.xml`).
+
+**Example in `hibernate.cfg.xml`:**
+```xml
+<hibernate-mapping>
+    <class name="com.example.Employee" table="Employee">
+        <query name="Employee.findBySalary">
+            <![CDATA[FROM Employee WHERE salary > :minSalary]]>
+        </query>
+    </class>
+</hibernate-mapping>
+```
+
+---
+
+### **Using Named Queries**
+
+#### **1. Fetching the Query**
+Named queries are fetched using the `Session` or `EntityManager`.
+
+**Example with HQL:**
+```java
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+
+Session session = HibernateUtil.getSessionFactory().openSession();
+Query<Employee> query = session.getNamedQuery("Employee.findBySalary");
+query.setParameter("minSalary", 50000);
+List<Employee> employees = query.list();
+```
+
+**Example with Native SQL:**
+```java
+Query<Employee> query = session.getNamedNativeQuery("Employee.findAll");
+List<Employee> employees = query.list();
+```
+
+---
+
+### **Advantages of Named Queries**
+1. **Centralized Query Definitions**: All query definitions can be managed in one place, improving maintainability.
+2. **Performance**: Pre-compilation during application startup avoids runtime parsing.
+3. **Reduced Boilerplate**: Simplifies query execution code.
+4. **Ease of Use**: Queries can be invoked by their name, making the code cleaner and more readable.
+
+---
+
+### **Best Practices**
+1. Use named queries for commonly used queries.
+2. Prefer `@NamedQuery` or `@NamedQueries` for HQL queries and `@NamedNativeQuery` for raw SQL.
+3. Use meaningful and descriptive names for queries.
+4. Keep query logic in sync with database schema changes to avoid runtime errors.
+
+---
+
+Named queries are an essential feature in Hibernate, providing a clean and efficient way to manage and reuse queries while leveraging Hibernate's ORM capabilities.
+
+Q. Explain criteria API?
+-> ### **What is Criteria API in Hibernate?**
+The **Criteria API** is a powerful and flexible feature in Hibernate for building dynamic, type-safe queries programmatically in Java. It allows developers to create queries without writing raw SQL or HQL, making the query construction dynamic and reusable.
+
+The Criteria API is part of Hibernate's ORM functionality and is particularly useful when the query requirements depend on user input or runtime conditions.
+
+---
+
+### **Key Features of Criteria API**
+1. **Dynamic Query Creation**: Build queries dynamically based on conditions determined at runtime.
+2. **Type-Safety**: Offers compile-time safety, reducing the likelihood of query syntax errors.
+3. **Object-Oriented**: Works with Java objects, aligning with Hibernate's entity-centric approach.
+4. **Database Independence**: Abstracts SQL details, ensuring database portability.
+
+---
+
+### **Criteria API in Hibernate Versions**
+
+1. **Hibernate 3 and 4**:
+   - Used the `org.hibernate.Criteria` class.
+   - This class is now deprecated in Hibernate 5.
+
+2. **Hibernate 5 and Above**:
+   - Relies on the JPA 2.0 Criteria API (`javax.persistence.criteria`).
+   - This approach is standardized and preferred for modern applications.
+
+---
+
+### **How to Use Criteria API (JPA 2.0)**
+
+#### **1. Basic Setup**
+The `CriteriaBuilder` and `CriteriaQuery` classes are used to construct queries in the Criteria API.
+
+```java
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+
+import org.hibernate.Session;
+
+public class CriteriaExample {
+    public static void main(String[] args) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        // Get CriteriaBuilder
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+
+        // Create CriteriaQuery
+        CriteriaQuery<Employee> query = cb.createQuery(Employee.class);
+
+        // Define root entity (FROM clause)
+        Root<Employee> root = query.from(Employee.class);
+
+        // Add selection (SELECT * FROM Employee)
+        query.select(root);
+
+        // Execute query
+        List<Employee> employees = session.createQuery(query).getResultList();
+
+        // Print results
+        employees.forEach(System.out::println);
+
+        session.close();
+    }
+}
+```
+
+---
+
+#### **2. Adding Conditions (WHERE Clause)**
+To filter results, use the `CriteriaBuilder` to create predicates.
+
+```java
+// Add WHERE condition (salary > 50000)
+query.where(cb.gt(root.get("salary"), 50000));
+```
+
+**Complete Example:**
+```java
+CriteriaQuery<Employee> query = cb.createQuery(Employee.class);
+Root<Employee> root = query.from(Employee.class);
+
+// Add WHERE condition
+query.select(root).where(cb.gt(root.get("salary"), 50000));
+
+// Execute query
+List<Employee> employees = session.createQuery(query).getResultList();
+```
+
+---
+
+#### **3. Adding Sorting (ORDER BY Clause)**
+The `orderBy` method is used to add sorting to the query.
+
+```java
+// Add ORDER BY (salary DESC)
+query.orderBy(cb.desc(root.get("salary")));
+```
+
+**Complete Example:**
+```java
+query.select(root)
+     .where(cb.gt(root.get("salary"), 50000))
+     .orderBy(cb.desc(root.get("salary")));
+```
+
+---
+
+#### **4. Joining Entities**
+For queries involving relationships, use `join`.
+
+```java
+// Perform an INNER JOIN with Department
+Join<Employee, Department> department = root.join("department");
+
+// Add a condition based on the joined entity
+query.select(root).where(cb.equal(department.get("name"), "IT"));
+```
+
+---
+
+#### **5. Aggregations (COUNT, AVG, SUM, etc.)**
+The `CriteriaBuilder` provides methods for aggregation functions.
+
+**Example: Count Employees**
+```java
+// COUNT query
+CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+countQuery.select(cb.count(root));
+Long count = session.createQuery(countQuery).getSingleResult();
+```
+
+**Example: Average Salary**
+```java
+query.select(cb.avg(root.get("salary")));
+Double avgSalary = session.createQuery(query).getSingleResult();
+```
+
+---
+
+### **Comparison: Criteria API vs HQL**
+
+| **Feature**           | **Criteria API**                                             | **HQL**                                          |
+|------------------------|-------------------------------------------------------------|-------------------------------------------------|
+| **Query Construction** | Programmatic, dynamic                                       | Written as strings                             |
+| **Type-Safe**          | Yes                                                        | No                                             |
+| **Dynamic Queries**    | Easily handles dynamic conditions                          | Requires manual string concatenation           |
+| **Ease of Use**        | Slightly more verbose                                      | Simple for straightforward queries             |
+| **Database Independence** | Yes                                                    | Yes                                            |
+
+---
+
+### **Advantages of Criteria API**
+1. **Dynamic Query Building**: Adapts to runtime conditions without hardcoding.
+2. **Type Safety**: Reduces runtime errors by ensuring compile-time checks.
+3. **Readable and Maintainable**: Object-oriented approach aligns with Java code structure.
+4. **Powerful Features**: Supports joins, aggregations, groupings, and subqueries.
+5. **Database Agnostic**: Works seamlessly across different database systems.
+
+---
+
+### **Limitations of Criteria API**
+1. **Verbosity**: Requires more code compared to simple HQL or SQL queries.
+2. **Learning Curve**: Developers familiar with SQL may find the Criteria API initially complex.
+
+---
+
+### **When to Use Criteria API**
+- When queries need to be constructed dynamically at runtime.
+- When type safety and programmatic query creation are priorities.
+- When working with complex relationships or conditions.
+
+The Criteria API provides a robust, type-safe alternative to HQL, making it an essential tool for building dynamic and maintainable queries in Hibernate applications.
+
+Q. What is second level cache in hibernate? How do you configure it?
+-> ### **What is Second-Level Cache in Hibernate?**
+The **Second-Level Cache** in Hibernate is an optional caching mechanism that stores objects or entities across multiple sessions, improving performance by reducing the number of database queries. Unlike the **First-Level Cache**, which is session-specific, the **Second-Level Cache** is shared across all sessions in the same `SessionFactory`.
+
+---
+
+### **Key Features of Second-Level Cache**
+1. **Shared Cache**: Common for all sessions in a `SessionFactory`.
+2. **Reduces Database Load**: Prevents redundant database queries for the same data.
+3. **Pluggable Cache Providers**: Supports various caching providers like EhCache, Infinispan, and Redis.
+4. **Configurable**: Can be enabled selectively for entities, collections, or queries.
+
+---
+
+### **How Second-Level Cache Works**
+1. When an entity is accessed, Hibernate checks the **Second-Level Cache**.
+2. If the entity is present, it is retrieved from the cache.
+3. If not, Hibernate fetches it from the database and stores it in the cache for future use.
+
+---
+
+### **Configuring Second-Level Cache**
+
+#### **Step 1: Enable Second-Level Cache in Hibernate**
+Add the following property to the Hibernate configuration file (`hibernate.cfg.xml` or `application.properties`).
+
+For XML configuration:
+```xml
+<hibernate-configuration>
+    <session-factory>
+        <!-- Enable Second-Level Cache -->
+        <property name="hibernate.cache.use_second_level_cache">true</property>
+        
+        <!-- Specify Cache Provider -->
+        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.jcache.JCacheRegionFactory</property>
+        
+        <!-- Cache Provider Specific Settings -->
+        <property name="hibernate.javax.cache.provider">org.ehcache.jsr107.EhcacheCachingProvider</property>
+    </session-factory>
+</hibernate-configuration>
+```
+
+For properties configuration:
+```properties
+hibernate.cache.use_second_level_cache=true
+hibernate.cache.region.factory_class=org.hibernate.cache.jcache.JCacheRegionFactory
+hibernate.javax.cache.provider=org.ehcache.jsr107.EhcacheCachingProvider
+```
+
+---
+
+#### **Step 2: Configure Entity for Caching**
+Use the `@Cache` annotation to enable caching for specific entities or collections.
+
+**Example:**
+```java
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+@Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+public class Employee {
+    @Id
+    private int id;
+    private String name;
+    private double salary;
+
+    // Getters and Setters
+}
+```
+
+- **`usage`**: Defines the concurrency strategy for the cache.
+  - `READ_ONLY`: For data that does not change.
+  - `NONSTRICT_READ_WRITE`: For infrequently updated data.
+  - `READ_WRITE`: For frequently updated data.
+  - `TRANSACTIONAL`: For transactional environments.
+
+---
+
+#### **Step 3: Configure Cache Provider**
+Hibernate supports several cache providers. The configuration depends on the provider used. Below is an example for **EhCache**.
+
+##### **EhCache Configuration (`ehcache.xml`):**
+```xml
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd">
+    <cache name="com.example.Employee"
+           maxEntriesLocalHeap="1000"
+           timeToLiveSeconds="3600"
+           eternal="false">
+    </cache>
+</ehcache>
+```
+
+- **`name`**: Specifies the region name (usually the entity class name).
+- **`maxEntriesLocalHeap`**: Limits the number of objects stored.
+- **`timeToLiveSeconds`**: Time-to-live for cached entries.
+- **`eternal`**: If `true`, entries never expire.
+
+Place this file in the classpath (e.g., `src/main/resources`).
+
+---
+
+### **Step 4: Optional Query Caching**
+To enable query-level caching, set the following property:
+
+**Hibernate Configuration:**
+```properties
+hibernate.cache.use_query_cache=true
+```
+
+Mark the query as cacheable in your code:
+```java
+Query<Employee> query = session.createQuery("FROM Employee", Employee.class);
+query.setCacheable(true);
+List<Employee> employees = query.list();
+```
+
+---
+
+### **Example: Complete Configuration**
+Here’s how you can enable and use the Second-Level Cache in Hibernate:
+
+1. Add the required dependencies for Hibernate and the cache provider (e.g., EhCache or Infinispan).
+2. Configure Hibernate to use the cache provider.
+3. Annotate the entity with `@Cache` and specify the caching strategy.
+4. Optionally configure query caching.
+
+---
+
+### **Advantages of Second-Level Cache**
+1. **Improved Performance**: Reduces database access by serving frequently requested data from the cache.
+2. **Cost Efficiency**: Saves resources like database CPU and IO.
+3. **Scalability**: Helps in scaling applications by reducing database load.
+
+---
+
+### **Limitations of Second-Level Cache**
+1. **Complexity**: Increases application complexity due to additional configuration and maintenance.
+2. **Staleness**: Risk of stale data if cache invalidation is not properly handled.
+3. **Overhead**: Requires additional memory and careful resource management.
+
+---
+
+### **When to Use Second-Level Cache**
+- Applications with frequent read operations and relatively static data.
+- Scenarios where reducing database load is critical.
+- Large-scale, high-performance applications.
+
+By carefully configuring and using the **Second-Level Cache**, Hibernate applications can achieve significant performance improvements while minimizing database interactions.
+
+Q. What is difference between native SQL and HQL in hibernate?
+-> ### **Difference Between Native SQL and HQL in Hibernate**
+
+Hibernate provides two main ways to interact with the database: **Native SQL** and **HQL (Hibernate Query Language)**. Both serve different purposes and have distinct characteristics.
+
+---
+
+| **Aspect**               | **Native SQL**                                     | **HQL (Hibernate Query Language)**              |
+|---------------------------|---------------------------------------------------|------------------------------------------------|
+| **Definition**            | Raw SQL queries written directly in SQL syntax.  | Object-oriented query language specific to Hibernate. |
+| **Database Dependency**   | Database-specific, may not be portable.          | Database-independent, supports portability.    |
+| **Entity Mapping**        | Works with database tables and columns directly. | Works with Hibernate entities and their attributes. |
+| **Complexity**            | Complex, as developers must handle database schema details. | Simplified, as queries are constructed using object relationships. |
+| **Flexibility**           | Full control over SQL features, including database-specific ones. | Limited to features supported by Hibernate's ORM framework. |
+| **Ease of Use**           | Requires manual handling of results and mappings. | Automatic mapping of entities to query results. |
+| **Caching**               | Results are not automatically cached.            | Integrates seamlessly with Hibernate’s caching mechanisms. |
+| **Example Query**         | `SELECT * FROM Employee WHERE salary > 50000;`   | `FROM Employee WHERE salary > 50000`           |
+
+---
+
+### **Native SQL in Hibernate**
+Native SQL allows you to write raw SQL queries directly. This is useful for complex queries or database-specific features that cannot be expressed in HQL.
+
+#### **Advantages of Native SQL**
+1. Full control over SQL.
+2. Leverages database-specific optimizations.
+3. Suitable for complex queries not supported by HQL.
+
+#### **Disadvantages of Native SQL**
+1. Tightly coupled with the database, reducing portability.
+2. Manual mapping required between query results and entities.
+
+**Example:**
+```java
+String sql = "SELECT * FROM Employee WHERE salary > 50000";
+SQLQuery query = session.createSQLQuery(sql);
+query.addEntity(Employee.class); // Maps result to Employee entity
+List<Employee> employees = query.list();
+```
+
+---
+
+### **HQL in Hibernate**
+HQL is an object-oriented query language that operates on Hibernate's mapped entities and their relationships. It abstracts the database schema, allowing developers to focus on objects.
+
+#### **Advantages of HQL**
+1. Database-independent.
+2. Simplified syntax for working with entities.
+3. Automatic mapping of entities and attributes.
+4. Supports Hibernate features like polymorphic queries and second-level caching.
+
+#### **Disadvantages of HQL**
+1. Limited flexibility compared to raw SQL.
+2. May not support database-specific optimizations.
+
+**Example:**
+```java
+String hql = "FROM Employee WHERE salary > 50000";
+Query<Employee> query = session.createQuery(hql, Employee.class);
+List<Employee> employees = query.list();
+```
+
+---
+
+### **When to Use Native SQL vs HQL**
+
+| **Scenario**                                       | **Recommended Approach** |
+|----------------------------------------------------|---------------------------|
+| Need for database-specific features or optimizations | Native SQL                |
+| Application must be portable across databases      | HQL                       |
+| Complex queries requiring advanced SQL capabilities | Native SQL                |
+| Simple CRUD operations and queries on entities     | HQL                       |
+| Leveraging Hibernate features like caching         | HQL                       |
+
+---
+
+### **Conclusion**
+- Use **HQL** when you want portability, type safety, and integration with Hibernate features.
+- Use **Native SQL** for highly complex queries or when leveraging database-specific features. 
+
+Both approaches have their place in Hibernate applications, and understanding their differences helps in choosing the right tool for the job.
+
+Q. What are the common caching strategies used in hibernate?
+-> ### **Common Caching Strategies in Hibernate**
+
+Hibernate supports several caching strategies to optimize data retrieval and minimize database access. These caching strategies are used for **Second-Level Cache** and help in maintaining data consistency while improving performance.
+
+---
+
+### **Caching Strategies**
+
+| **Caching Strategy**            | **Description**                                                                                              | **Use Case**                                                                                               |
+|----------------------------------|--------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| **Read-Only**                    | The cache is never updated. Data can only be read and is considered immutable.                              | Suitable for static or rarely-changing data like country codes, configurations, or reference tables.       |
+| **Non-Strict Read-Write**        | The cache is updated after the transaction commits, which might result in stale data if accessed concurrently. | Suitable for data that changes occasionally and where a small risk of stale data is acceptable.            |
+| **Read-Write**                   | Ensures strong consistency by updating the cache during transactions and invalidating it when data changes.  | Suitable for frequently changing data where strong consistency is required.                                |
+| **Transactional**                | Ensures full transactional support using JTA (Java Transaction API). Maintains strict consistency.          | Suitable for applications using distributed transactions.                                                  |
+
+---
+
+### **Explanation of Strategies**
+
+#### 1. **Read-Only**
+- **Behavior**: 
+  - Data is never updated in the cache.
+  - The application can only read from the cache.
+- **Advantages**:
+  - High performance since no locking is required.
+  - Ideal for reference data.
+- **Disadvantages**:
+  - Cannot be used for mutable data.
+- **Example Configuration**:
+```java
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+```
+
+---
+
+#### 2. **Non-Strict Read-Write**
+- **Behavior**:
+  - Cache is updated only after the transaction commits.
+  - Risk of stale data if another session accesses the cache simultaneously.
+- **Advantages**:
+  - Better performance than strict strategies.
+- **Disadvantages**:
+  - Not suitable for applications requiring strict consistency.
+- **Example Configuration**:
+```java
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+```
+
+---
+
+#### 3. **Read-Write**
+- **Behavior**:
+  - Maintains strong consistency by invalidating cache entries when data changes.
+  - Cache updates are synchronized with transactions.
+- **Advantages**:
+  - Guarantees data consistency.
+- **Disadvantages**:
+  - Slower performance due to locking mechanisms.
+- **Example Configuration**:
+```java
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+```
+
+---
+
+#### 4. **Transactional**
+- **Behavior**:
+  - Provides strict consistency and full transactional support using JTA.
+- **Advantages**:
+  - Best for applications requiring distributed transactions.
+- **Disadvantages**:
+  - Requires a transactional cache provider.
+- **Example Configuration**:
+```java
+@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
+```
+
+---
+
+### **How to Configure Caching Strategies**
+
+#### 1. **Entity-Level Configuration**
+Use the `@Cache` annotation in your entity class.
+
+**Example:**
+```java
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+@Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+public class Employee {
+    @Id
+    private int id;
+    private String name;
+    private double salary;
+
+    // Getters and Setters
+}
+```
+
+---
+
+#### 2. **Collection-Level Configuration**
+Enable caching for collections like `@OneToMany` or `@ManyToMany`.
+
+**Example:**
+```java
+@OneToMany(mappedBy = "department")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+private Set<Employee> employees;
+```
+
+---
+
+#### 3. **Query-Level Caching**
+Enable caching for specific queries using the `setCacheable(true)` method.
+
+**Example:**
+```java
+Query<Employee> query = session.createQuery("FROM Employee", Employee.class);
+query.setCacheable(true);
+List<Employee> employees = query.list();
+```
+
+---
+
+### **Choosing the Right Caching Strategy**
+
+| **Scenario**                                      | **Recommended Strategy**         |
+|---------------------------------------------------|-----------------------------------|
+| Immutable data or reference tables               | Read-Only                        |
+| Data that changes infrequently                   | Non-Strict Read-Write            |
+| Frequently changing data requiring consistency   | Read-Write                       |
+| Distributed transactions or strict consistency   | Transactional                    |
+
+---
+
+### **Conclusion**
+The choice of a caching strategy in Hibernate depends on the nature of your data and the consistency requirements of your application. Properly configuring and selecting caching strategies can significantly enhance performance while ensuring data consistency.
+
+Q. What is the N+1 problem in hibernate? and how is it mapped?
+-> ### **What is the N+1 Problem in Hibernate?**
+
+The **N+1 problem** in Hibernate (or any ORM) arises when the framework executes **one query** to fetch the parent entities and then executes **N queries** (one for each parent entity) to fetch the related child entities. This often leads to performance degradation due to excessive database queries, especially in scenarios involving large datasets.
+
+---
+
+### **Example Scenario of the N+1 Problem**
+
+#### **Entities:**
+```java
+@Entity
+public class Department {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
+    private List<Employee> employees;
+}
+
+@Entity
+public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @ManyToOne
+    private Department department;
+}
+```
+
+#### **Problematic Query:**
+```java
+List<Department> departments = session.createQuery("FROM Department", Department.class).getResultList();
+
+for (Department department : departments) {
+    System.out.println(department.getName());
+    for (Employee employee : department.getEmployees()) {
+        System.out.println(employee.getName());
+    }
+}
+```
+
+---
+
+#### **Query Execution:**
+1. **1 Query for Departments**:
+   ```sql
+   SELECT * FROM Department;
+   ```
+
+2. **N Queries for Employees (One Per Department)**:
+   For each department:
+   ```sql
+   SELECT * FROM Employee WHERE department_id = ?;
+   ```
+
+---
+
+### **Why is it a Problem?**
+- **Performance Degradation**: As the number of parent entities (`N`) increases, the number of queries executed grows linearly, leading to significant database overhead.
+- **Network Latency**: Multiple round trips between the application and database increase response time.
+- **Scalability Issues**: Handling large datasets becomes inefficient.
+
+---
+
+### **How to Solve the N+1 Problem in Hibernate?**
+
+Hibernate provides multiple solutions to address the N+1 problem:
+
+---
+
+#### 1. **Using `FETCH JOIN` in HQL**
+A `FETCH JOIN` retrieves parent and child entities in a single query by joining them.
+
+**Example:**
+```java
+List<Department> departments = session.createQuery(
+    "SELECT d FROM Department d JOIN FETCH d.employees", 
+    Department.class
+).getResultList();
+
+for (Department department : departments) {
+    System.out.println(department.getName());
+    for (Employee employee : department.getEmployees()) {
+        System.out.println(employee.getName());
+    }
+}
+```
+
+**Generated SQL**:
+```sql
+SELECT d.*, e.* 
+FROM Department d 
+LEFT JOIN Employee e ON d.id = e.department_id;
+```
+
+---
+
+#### 2. **Using `@BatchSize` Annotation**
+The `@BatchSize` annotation minimizes queries by batching the loading of child entities.
+
+**Example:**
+```java
+@OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
+@BatchSize(size = 5)
+private List<Employee> employees;
+```
+
+This groups the queries into batches of 5:
+```sql
+SELECT * FROM Employee WHERE department_id IN (?, ?, ?, ?, ?);
+```
+
+---
+
+#### 3. **Using `@Fetch(FetchMode.SUBSELECT)`**
+The `@Fetch` annotation with `FetchMode.SUBSELECT` minimizes queries by fetching child entities in a subquery.
+
+**Example:**
+```java
+@OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
+@Fetch(FetchMode.SUBSELECT)
+private List<Employee> employees;
+```
+
+**Generated SQL**:
+```sql
+SELECT * FROM Department;
+
+SELECT * FROM Employee 
+WHERE department_id IN (
+    SELECT id FROM Department
+);
+```
+
+---
+
+#### 4. **Using `EntityGraph`**
+An `EntityGraph` defines a graph of entities to be fetched in a single query.
+
+**Example:**
+```java
+EntityGraph<Department> graph = session.createEntityGraph(Department.class);
+graph.addSubgraph("employees");
+
+List<Department> departments = session.createQuery("FROM Department", Department.class)
+    .setHint("javax.persistence.loadgraph", graph)
+    .getResultList();
+```
+
+---
+
+#### 5. **Adjusting Fetch Type**
+Switching from **lazy fetching** (`FetchType.LAZY`) to **eager fetching** (`FetchType.EAGER`) loads child entities immediately.
+
+**Example:**
+```java
+@OneToMany(mappedBy = "department", fetch = FetchType.EAGER)
+private List<Employee> employees;
+```
+
+**Caution**:
+- Eager fetching can degrade performance for large datasets by loading unnecessary data.
+- Use eager fetching judiciously.
+
+---
+
+### **Best Practices**
+1. Use **`JOIN FETCH`** for selective eager loading when specific relationships are required.
+2. Use **`@BatchSize`** or **`@Fetch(FetchMode.SUBSELECT)`** to optimize lazy loading.
+3. Prefer **lazy fetching** (`FetchType.LAZY`) as the default fetch strategy.
+4. Use **EntityGraph** for fine-grained control over fetching strategies in dynamic queries.
+
+---
+
+### **Conclusion**
+The **N+1 problem** in Hibernate can lead to significant performance issues but can be effectively mitigated using appropriate fetching strategies such as `JOIN FETCH`, `@BatchSize`, or `@Fetch(FetchMode.SUBSELECT)`. Understanding your application's data access patterns is crucial to applying the right solution for optimal performance.
+
+Q. Explain the use of @Embadable and @Embaded in hibernate?
+-> In Hibernate, `@Embeddable` and `@Embedded` annotations are used to model a **composite value type** (an entity attribute that is itself a class, representing a reusable piece of data). These annotations help in embedding one class within another as a part of the entity.
+
+---
+
+### **What is `@Embeddable`?**
+
+- The `@Embeddable` annotation marks a class as an **embeddable type**.
+- An embeddable class does not have its own table and cannot exist independently. Instead, its fields are persisted as part of the owning entity's table.
+- It is used to define reusable components that can be embedded in multiple entities.
+
+---
+
+### **What is `@Embedded`?**
+
+- The `@Embedded` annotation is used in the owning entity class to embed an `@Embeddable` class.
+- This annotation specifies where the embedded object should be mapped in the database.
+
+---
+
+### **Example: Using `@Embeddable` and `@Embedded`**
+
+#### **Embeddable Class**
+```java
+import jakarta.persistence.Embeddable;
+
+@Embeddable
+public class Address {
+    private String street;
+    private String city;
+    private String state;
+    private String zipCode;
+
+    // Getters and Setters
+}
+```
+
+#### **Entity Class**
+```java
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Embedded;
+
+@Entity
+public class Employee {
+    @Id
+    private int id;
+    private String name;
+
+    @Embedded
+    private Address address;
+
+    // Getters and Setters
+}
+```
+
+#### **Generated Table (Database)**
+The `Employee` table will include the fields from the `Address` class:
+
+| **id** | **name** | **street** | **city** | **state** | **zipCode** |
+|--------|----------|------------|----------|-----------|-------------|
+| 1      | John     | 123 Elm St| New York | NY        | 10001       |
+
+---
+
+### **Customizing Column Names with `@AttributeOverrides`**
+
+By default, the fields of the `@Embeddable` class are mapped to columns with their field names. You can override this behavior using the `@AttributeOverrides` annotation.
+
+#### Example:
+```java
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.AttributeOverrides;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
+public class Employee {
+    @Id
+    private int id;
+    private String name;
+
+    @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name = "street", column = @Column(name = "home_street")),
+        @AttributeOverride(name = "city", column = @Column(name = "home_city")),
+        @AttributeOverride(name = "state", column = @Column(name = "home_state")),
+        @AttributeOverride(name = "zipCode", column = @Column(name = "home_zipCode"))
+    })
+    private Address address;
+
+    // Getters and Setters
+}
+```
+
+#### **Generated Table**
+| **id** | **name** | **home_street** | **home_city** | **home_state** | **home_zipCode** |
+|--------|----------|-----------------|---------------|----------------|------------------|
+| 1      | John     | 123 Elm St     | New York      | NY             | 10001            |
+
+---
+
+### **Key Points**
+
+1. **Reusability**: The `@Embeddable` class can be reused across multiple entities, reducing code duplication.
+2. **No Identity**: The `@Embeddable` class does not have its own identity and lifecycle. It depends entirely on the owning entity.
+3. **Database Design**: Fields of the `@Embeddable` class are stored as part of the owning entity's table, avoiding the need for a separate table.
+4. **Overrides**: Use `@AttributeOverrides` to customize column mappings when necessary.
+
+---
+
+### **When to Use `@Embeddable` and `@Embedded`?**
+
+- To represent **value types** like an address, contact details, or dimensions that do not need their own table.
+- To model **reusable components** in your domain model.
+
+By leveraging `@Embeddable` and `@Embedded`, Hibernate makes it easier to work with rich domain models and avoid unnecessary table complexity in the database schema.
+
+Q. How does the @JoinColumn annotation works?
+-> The `@JoinColumn` annotation in Hibernate is used to specify the column that acts as a foreign key in a relationship between two entities. It is typically used in **associations** like `@ManyToOne`, `@OneToOne`, `@OneToMany`, and `@ManyToMany` where one entity references another. 
+
+The `@JoinColumn` annotation defines the foreign key column that links two tables in a database. It specifies the column name in the owning entity's table that is used to associate with the referenced entity's primary key.
+
+### **Basic Usage of `@JoinColumn`**
+
+The `@JoinColumn` annotation can be applied to a field representing an association in an entity, usually in the **owning side** of the relationship. The owning side is the side that contains the foreign key column.
+
+---
+
+### **Example 1: @ManyToOne with @JoinColumn**
+
+In a `@ManyToOne` relationship, multiple instances of one entity (e.g., `Employee`) can be associated with a single instance of another entity (e.g., `Department`). The `Department` table would have a foreign key column referencing the `Employee` table.
+
+#### **Entities:**
+
+```java
+@Entity
+public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id") // Foreign key column
+    private Department department;
+
+    // Getters and Setters
+}
+
+@Entity
+public class Department {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String departmentName;
+
+    // Getters and Setters
+}
+```
+
+#### **Generated Database Tables:**
+
+1. **Employee Table:**
+
+| **id** | **name**   | **department_id** |
+|--------|-----------|-------------------|
+| 1      | Alice     | 101               |
+| 2      | Bob       | 102               |
+
+2. **Department Table:**
+
+| **id** | **departmentName** |
+|--------|--------------------|
+| 101    | HR                 |
+| 102    | Engineering        |
+
+Here, the `department_id` column in the `Employee` table is the foreign key that references the `id` column in the `Department` table.
+
+---
+
+### **Explanation of `@JoinColumn` Parameters**
+
+The `@JoinColumn` annotation can accept several attributes to control how the foreign key relationship is mapped:
+
+- **name**: Specifies the name of the foreign key column in the owning table (the table where the `@ManyToOne` or `@OneToOne` relationship is defined).
+  - **Example**: `@JoinColumn(name = "department_id")` (Foreign key column in the `Employee` table).
+
+- **referencedColumnName**: Specifies the column in the referenced entity that the foreign key will reference. By default, it points to the primary key (`id`) of the referenced entity.
+  - **Example**: `@JoinColumn(name = "department_id", referencedColumnName = "id")`.
+
+- **nullable**: Determines whether the foreign key column can have a `null` value. By default, it is `true`, which means the column can accept `null`.
+  - **Example**: `@JoinColumn(name = "department_id", nullable = false)` (Makes the foreign key column `NOT NULL`).
+
+- **unique**: Specifies whether the foreign key column should have a unique constraint. This is useful if you want to ensure that the foreign key value is unique in the owning entity's table.
+  - **Example**: `@JoinColumn(name = "department_id", unique = true)` (Enforces uniqueness on the foreign key column).
+
+- **insertable** and **updatable**: These flags control whether the foreign key column can be inserted or updated during database operations. By default, these are `true`.
+  - **Example**: `@JoinColumn(name = "department_id", insertable = false, updatable = false)` (Foreign key value is fixed and cannot be changed).
+
+---
+
+### **Example 2: @OneToOne with @JoinColumn**
+
+A `@OneToOne` relationship can also use `@JoinColumn` to specify the foreign key. This is used when one instance of an entity is associated with only one instance of another entity.
+
+```java
+@Entity
+public class Person {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @OneToOne
+    @JoinColumn(name = "address_id") // Foreign key column
+    private Address address;
+
+    // Getters and Setters
+}
+
+@Entity
+public class Address {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String street;
+    private String city;
+
+    // Getters and Setters
+}
+```
+
+#### **Generated Database Tables:**
+
+1. **Person Table:**
+
+| **id** | **name**  | **address_id** |
+|--------|-----------|----------------|
+| 1      | John      | 1001           |
+| 2      | Alice     | 1002           |
+
+2. **Address Table:**
+
+| **id** | **street** | **city** |
+|--------|------------|----------|
+| 1001   | 123 Main St| NY       |
+| 1002   | 456 Elm St | LA       |
+
+---
+
+### **Using `@JoinColumn` with `@OneToMany` and `@ManyToMany`**
+
+For **`@OneToMany`** and **`@ManyToMany`** relationships, the `@JoinColumn` annotation is used in the owning side (where the foreign key column is defined).
+
+- **`@OneToMany`** is typically the **inverse** side of the relationship, and `@JoinColumn` is not commonly used directly.
+- **`@ManyToMany`** uses a **join table** for many-to-many associations, and `@JoinColumn` is used in conjunction with `@JoinTable` to specify the columns of the join table.
+
+---
+
+### **Conclusion**
+
+- **`@JoinColumn`** is used to specify the foreign key column in a relationship between two entities in Hibernate.
+- It provides control over the foreign key column name, whether the column can be `null`, its uniqueness, and other relational mappings.
+- The `@JoinColumn` annotation is commonly used with `@ManyToOne`, `@OneToOne`, and in **join tables** for `@ManyToMany` relationships.
+

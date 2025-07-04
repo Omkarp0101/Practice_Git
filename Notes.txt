@@ -1,0 +1,67 @@
+Q.What is the difference between Comparable and Comparator?
+-Comparable provides one method named compareTo() but Comparator provides one method named compare().
+-Comparable provides only one sort of sequence but Comparator provides multiple sorts of sequences.
+-Comparable provides natural sorting order and comparator can provide customize order.
+
+Q.Advantage of inheritance?
+-Code re_usability
+-Class Extendibility
+-Save development time
+
+https://github.com/the-kiran-academy/DSA360API
+
+
+
+Dear sir,
+I hope this email finds you well.
+I am writing to inform you that I have completed the task that you had given to us to copy records from one table to another.
+
+I have attached the file below.
+If you have any questions or further information please let me know.
+Thank you for your time.
+
+Best Regards,
+Omkar Patil.
+
+uqet iwph rggr cawp
+
+
+==================================================================================
+
+
+Project workflow-
+------------------
+
+The DSA360 Project streamlines the management of Direct Selling Agents (DSAs) by integrating multiple core modules.
+The system begins with DSA Management, where agents are onboarded, assigned territories, and their profiles are maintained.
+The Customer Management module handles customer records, interactions, and relationships, while the Lead Management module helps capture and assign leads to DSAs.
+The Sales Management module records transactions, generates invoices, and processes payments, which directly impacts the Commission Management module that calculates and tracks DSA earnings. 
+Performance Tracking monitors sales targets and KPIs, while Reporting & Analytics generates insights into sales, customer behavior, and DSA performance. 
+The system ensures secure access through Authentication & Authorization and enhances communication with Notifications & Alerts. Additionally, the Integration Module syncs with external systems like CRMs and payment gateways. 
+Document Management organizes important files, and Task Management helps DSAs stay organized with reminders. Finally, the Loan & Tax Toolkit provides financial calculators for accurate pricing and commission calculations. 
+All these modules work together to optimize DSA operations, enhance sales efficiency, and improve customer relationships.
+
+===================================================
+
+
+"My project is focused on the DSA (Direct Selling Agent) Registration Process for banks and NBFCs. 
+It involves automating and streamlining the registration process for individuals or entities who want to 
+become DSAs.
+
+The project covers the complete registration workflow, starting from submitting an application to 
+a bank or NBFC, making necessary payments, and furnishing required documents. The system ensures document 
+verification, due diligence by the legal team, and credit history checks. Once the verification process is 
+complete, the system generates a DSA registration agreement, which applicants need to sign and submit. 
+After approval, a DSA code is issued, allowing the agent to start submitting loan applications and documents.
+
+
+The project ensures efficiency, reduces manual paperwork, and enhances transparency in the registration process. 
+It also integrates compliance checks like CIBIL score validation and legal verification, making it a robust 
+and scalable solution for financial institutions."
+
+
+
+The @Entity annotation specifies that this class is an entity and should be mapped to a database table. 
+The @Table annotation specifies the name of the database table that will store instances of this entity.
+The @Id annotation specifies the primary key of the entity,
+the @GeneratedValue annotation specifies that the primary key should be generated automatically.
